@@ -21,7 +21,10 @@
         in
         {
           default = pkgs.mkShell {
-            packages = with pkgs; [ emscripten ];
+            packages = with pkgs; [
+              emscripten
+              cmake
+            ];
           };
         }
       );
