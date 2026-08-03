@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 4.3.4) # FIXME: Only tested w/ 4.3.4
+project(orbit-sim CXX)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+add_executable(hello hello_world.cpp)
+target_compile_features(hello PRIVATE cxx_std_23)
+set_target_properties(hello PROPERTIES SUFFIX ".html")
