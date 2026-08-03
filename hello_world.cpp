@@ -1,13 +1,10 @@
-// Copyright 2011 The Emscripten Authors.  All rights reserved.
-// Emscripten is available under two separate licenses, the MIT license and the
-// University of Illinois/NCSA Open Source License.  Both these licenses can be
-// found in the LICENSE file.
+#include <expected>
+#include <print>
 
-#include <stdio.h>
+std::expected<int, int> test;
 
-class Test {}; // This will fail in C mode
-
-int main() {
-  printf("Hello, world!\n");
+int main(void) {
+  std::print("Hello, world!\n");
+  std::print("foo\n");
   return 0;
 }
