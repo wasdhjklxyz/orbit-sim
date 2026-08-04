@@ -19,7 +19,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
 
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
   (void)appstate;
-  if (event->type == SDL_EVENT_QUIT) {
+  if (event->type == SDL_EVENT_QUIT ||
+      (event->type == SDL_EVENT_KEY_DOWN && event->key.key == SDLK_Q)) {
     return SDL_APP_SUCCESS;
   }
   return SDL_APP_CONTINUE;
