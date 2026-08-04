@@ -1,16 +1,17 @@
 cmake_minimum_required(VERSION 4.3.4) # FIXME: Only tested w/ 4.3.4
-project(orbit-sim CXX)
+set(PROJECT orbit-sim)
+project(${PROJECT} CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable(hello hello_world.cpp)
-target_compile_features(hello PRIVATE cxx_std_23)
+add_executable(${PROJECT} src/main.cpp src/app.cpp)
+target_compile_features(${PROJECT} PRIVATE cxx_std_23)
 
 if(EMSCRIPTEN)
-  target_compile_options(hello PRIVATE --use-port=sdl3)
-  target_link_options(hello PRIVATE --use-port=sdl3)
-  set_target_properties(hello PROPERTIES SUFFIX ".html")
+  target_compile_options(${PROJECT} PRIVATE --use-port=sdl3)
+  target_link_options(${PROJECT} PRIVATE --use-port=sdl3)
+  set_target_properties(${PROJECT} PROPERTIES SUFFIX ".html")
 else()
   find_package(SDL3 REQUIRED)
-  target_link_libraries(hello PRIVATE SDL3::SDL3)
+  target_link_libraries(${PROJECT} PRIVATE SDL3::SDL3)
 endif()
