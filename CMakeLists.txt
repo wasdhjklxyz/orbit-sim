@@ -12,7 +12,5 @@ if(EMSCRIPTEN)
   set_target_properties(hello PROPERTIES SUFFIX ".html")
 else()
   find_package(SDL3 REQUIRED)
+  target_link_libraries(hello PRIVATE SDL3::SDL3)
 endif()
-
-target_include_directories(hello PRIVATE ${SDL3_INCLUDE_DIRS})
-target_link_libraries(hello PRIVATE ${SDL3_LIBRARIES})
