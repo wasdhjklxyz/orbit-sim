@@ -24,6 +24,10 @@
             packages = with pkgs; [
               emscripten
               cmake
+              (writeShellScriptBin "clangd" ''
+                exec ${pkgs.emscripten.llvmEnv}/bin/clangd \
+                  --query-driver='${pkgs.emscripten}/bin/em++' "$@"
+              '')
             ];
           };
         }
