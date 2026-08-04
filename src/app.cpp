@@ -4,7 +4,6 @@
 #error "Building with emscripten is required (FIXME)"
 #endif
 
-#include <GLES3/gl3.h>
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_video.h>
@@ -12,6 +11,8 @@
 #include <expected>
 #include <format>
 #include <memory>
+
+#include "gfx.hpp"
 
 namespace {
 
@@ -40,6 +41,7 @@ struct App::Impl {
   } sdl_guard;
   WindowPtr window;
   GLCtxPtr glctx;
+  std::unique_ptr<gfx::Renderer> renderer;
 };
 
 App::App(std::unique_ptr<Impl> p) noexcept : impl{std::move(p)} {}
@@ -89,12 +91,18 @@ std::expected<App, std::string> App::create(const char *title) {
         std::format("SDL_GL_SetSwapInterval: {}", SDL_GetError())};
   };
 
+  auto renderer = gfx::Renderer::create();
+  if (!renderer) {
+    return std::unexpected{renderer.error()};
+  }
+  impl->renderer = std::make_unique<gfx::Renderer>(std::move(*renderer));
+
   return App{std::move(impl)};
 }
 
 std::expected<void, std::string> App::iterate() {
-  glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
+  impl->renderer->clear();
+  impl->renderer->draw();
   if (!SDL_GL_SwapWindow(impl->window.get())) {
     return std::unexpected{
         std::format("SDL_GL_SwapWindow: {}", SDL_GetError())};
