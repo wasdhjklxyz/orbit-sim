@@ -28,6 +28,12 @@
                 exec ${pkgs.emscripten.llvmEnv}/bin/clangd \
                   --query-driver='${pkgs.emscripten}/bin/em++' "$@"
               '')
+              (writeShellScriptBin "cb" ''
+                ${pkgs.emscripten}/bin/emcmake cmake \
+                  -B build -S . && \
+                ${pkgs.emscripten}/bin/emmake make \
+                  -Cbuild -j''${NIX_BUILD_CORES}
+              '')
             ];
           };
         }
