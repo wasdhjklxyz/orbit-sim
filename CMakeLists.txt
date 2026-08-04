@@ -11,9 +11,11 @@ target_compile_options(${PROJECT} PRIVATE
 
 if(EMSCRIPTEN)
   target_compile_options(${PROJECT} PRIVATE --use-port=sdl3)
-  target_link_options(${PROJECT} PRIVATE --use-port=sdl3)
+  target_link_options(${PROJECT} PRIVATE
+    --use-port=sdl3 -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
   set_target_properties(${PROJECT} PROPERTIES SUFFIX ".html")
 else()
-  find_package(SDL3 REQUIRED)
-  target_link_libraries(${PROJECT} PRIVATE SDL3::SDL3)
+  message("Emscripten is required" FATAL) # FIXME
+  # find_package(SDL3 REQUIRED)
+  # target_link_libraries(${PROJECT} PRIVATE SDL3::SDL3)
 endif()
