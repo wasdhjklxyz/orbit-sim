@@ -24,6 +24,7 @@
             packages = with pkgs; [
               emscripten
               cmake
+              sdl3
             ];
           };
         }

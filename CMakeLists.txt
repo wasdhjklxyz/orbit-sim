@@ -5,4 +5,14 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(hello hello_world.cpp)
 target_compile_features(hello PRIVATE cxx_std_23)
-set_target_properties(hello PROPERTIES SUFFIX ".html")
+
+if(EMSCRIPTEN)
+  target_compile_options(hello INTERFACE -sUSE_SDL=3)
+  target_link_options(hello INTERFACE -sUSE_SDL=3)
+  set_target_properties(hello PROPERTIES SUFFIX ".html")
+else()
+  find_package(SDL3 REQUIRED)
+endif()
+
+target_include_directories(hello PRIVATE ${SDL3_INCLUDE_DIRS})
+target_link_libraries(hello PRIVATE ${SDL3_LIBRARIES})
