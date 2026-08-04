@@ -10,8 +10,8 @@
 
 namespace {
 
-constexpr int WIDTH = 640;
-constexpr int HEIGHT = 480;
+constexpr int WIDTH = 1280;
+constexpr int HEIGHT = 720;
 
 template <auto Fn> struct FnDeleter {
   template <typename T>
