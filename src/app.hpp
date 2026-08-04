@@ -10,8 +10,7 @@ public:
   App &operator=(App &&) noexcept;
 
   static std::expected<App, std::string> create(const char *title);
-
-  void run();
+  std::expected<void, std::string> iterate();
 
 private:
   struct Impl;

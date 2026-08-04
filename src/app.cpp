@@ -66,4 +66,18 @@ std::expected<App, std::string> App::create(const char *title) {
   return App{std::move(impl)};
 }
 
-void App::run() {}
+std::expected<void, std::string> App::iterate() {
+  auto rd = impl->renderer.get();
+  if (!SDL_SetRenderDrawColor(rd, 255, 0, 0, SDL_ALPHA_OPAQUE)) {
+    return std::unexpected{
+        std::format("SDL_SetRenderDrawColor: {}", SDL_GetError())};
+  }
+  if (!SDL_RenderClear(rd)) {
+    return std::unexpected{std::format("SDL_RenderClear: {}", SDL_GetError())};
+  }
+  if (!SDL_RenderPresent(rd)) {
+    return std::unexpected{
+        std::format("SDL_RenderPresent: {}", SDL_GetError())};
+  }
+  return {};
+}

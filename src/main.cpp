@@ -6,19 +6,14 @@
 #include "app.hpp"
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
-  (void)appstate;
   (void)argc;
   (void)argv;
-
   auto r = App::create("orbit-sim");
   if (!r) {
     std::println(stderr, "SDL_AppInit: {}", r.error());
     return SDL_APP_FAILURE;
   }
-
-  auto app = std::move(*r);
-  (void)app;
-
+  *appstate = std::make_unique<App>(std::move(*r)).release();
   return SDL_APP_CONTINUE;
 }
 
@@ -31,11 +26,15 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 }
 
 SDL_AppResult SDL_AppIterate(void *appstate) {
-  (void)appstate;
+  auto r = (*static_cast<App *>(appstate)).iterate();
+  if (!r) {
+    std::println(stderr, "SDL_AppIterate: {}", r.error());
+    return SDL_APP_FAILURE;
+  }
   return SDL_APP_CONTINUE;
 }
 
 void SDL_AppQuit(void *appstate, SDL_AppResult result) {
-  (void)appstate;
   (void)result;
+  delete static_cast<App *>(appstate);
 }
