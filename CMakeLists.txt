@@ -5,7 +5,8 @@ project(${PROJECT} CXX)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(${PROJECT}
-  src/main.cpp src/app.cpp src/renderer.cpp src/shaders.cpp src/vbo.cpp)
+  src/main.cpp src/app.cpp
+  src/renderer.cpp src/shaders.cpp src/vbo.cpp src/vao.cpp)
 target_compile_features(${PROJECT} PRIVATE cxx_std_23)
 target_compile_options(${PROJECT} PRIVATE
   -Wall -Wextra -Wpedantic -Werror -Wno-experimental)

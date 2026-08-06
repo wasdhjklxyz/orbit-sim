@@ -29,4 +29,7 @@ VertexArray VertexArray::create() {
   return VertexArray{id};
 }
 
+void VertexArray::bind() noexcept { glBindVertexArray(id); }
+void VertexArray::unbind() noexcept { glBindVertexArray(0); }
+
 } // namespace gfx

@@ -35,6 +35,8 @@ public:
   VertexArray &operator=(VertexArray &&) noexcept;
 
   static VertexArray create();
+  void bind() noexcept;
+  static void unbind() noexcept;
 
 private:
   explicit VertexArray(GLuint) noexcept;

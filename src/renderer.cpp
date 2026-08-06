@@ -4,6 +4,7 @@
 #include <GLES3/gl3.h>
 #include <expected>
 #include <format>
+#include <memory>
 #include <utility>
 
 namespace gfx {
@@ -27,6 +28,7 @@ const char *FRAGMENT_SHADER_SRC =
 
 struct Renderer::Impl {
   VertexBuffer vbo;
+  VertexArray vao;
   ShaderProg shp;
 };
 
@@ -36,8 +38,6 @@ Renderer &Renderer::operator=(Renderer &&) noexcept = default;
 Renderer::~Renderer() = default;
 
 std::expected<Renderer, std::string> Renderer::create() {
-  VertexBuffer vbo = VertexBuffer::create();
-
   auto sh_r = Shader::compile(GL_VERTEX_SHADER, VERTEX_SHADER_SRC);
   if (!sh_r) {
     return std::unexpected{std::format("Vertex shader: {}", sh_r.error())};
@@ -54,13 +54,21 @@ std::expected<Renderer, std::string> Renderer::create() {
   if (!shp_r) {
     return std::unexpected{std::format("Shader program: {}", shp_r.error())};
   }
-  auto impl = std::make_unique<Impl>(std::move(vbo), std::move(*shp_r));
-  impl->shp.use();
 
-  return Renderer{std::move(impl)};
+  VertexBuffer vbo = VertexBuffer::create();
+  VertexArray vao = VertexArray::create();
+
+  return Renderer{std::make_unique<Impl>(std::move(vbo), std::move(vao),
+                                         std::move(*shp_r))};
 }
 
 void Renderer::clear() noexcept { glClear(GL_COLOR_BUFFER_BIT); }
-void Renderer::draw() const noexcept { glDrawArrays(GL_TRIANGLES, 0, 3); }
+
+void Renderer::draw() const noexcept {
+  impl->shp.use();
+  impl->vao.bind();
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+  impl->vao.unbind();
+}
 
 }; // namespace gfx
