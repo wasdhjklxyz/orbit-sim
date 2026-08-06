@@ -26,6 +26,21 @@ private:
   GLuint id;
 };
 
+class VertexArray {
+public:
+  ~VertexArray() noexcept;
+  VertexArray(const VertexArray &) = delete;
+  VertexArray &operator=(const VertexArray &) = delete;
+  VertexArray(VertexArray &&) noexcept;
+  VertexArray &operator=(VertexArray &&) noexcept;
+
+  static VertexArray create();
+
+private:
+  explicit VertexArray(GLuint) noexcept;
+  GLuint id;
+};
+
 class Shader {
 public:
   ~Shader() noexcept;
