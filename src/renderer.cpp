@@ -27,8 +27,8 @@ const char *FRAGMENT_SHADER_SRC =
 } // namespace
 
 struct Renderer::Impl {
-  VertexBuffer vbo;
   VertexArray vao;
+  VertexBuffer vbo;
   ShaderProg shp;
 };
 
@@ -55,10 +55,13 @@ std::expected<Renderer, std::string> Renderer::create() {
     return std::unexpected{std::format("Shader program: {}", shp_r.error())};
   }
 
-  VertexBuffer vbo = VertexBuffer::create();
+  // TODO: Refactor all this VBO/VAO creation stuff
   VertexArray vao = VertexArray::create();
+  VertexBuffer vbo = VertexBuffer::create();
+  vbo.bind();
+  vao.unbind();
 
-  return Renderer{std::make_unique<Impl>(std::move(vbo), std::move(vao),
+  return Renderer{std::make_unique<Impl>(std::move(vao), std::move(vbo),
                                          std::move(*shp_r))};
 }
 

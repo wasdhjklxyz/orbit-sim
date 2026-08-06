@@ -38,6 +38,6 @@ VertexBuffer VertexBuffer::create() {
   return VertexBuffer{id};
 }
 
-GLuint VertexBuffer::get() const noexcept { return id; }
+void VertexBuffer::bind() noexcept { glBindBuffer(GL_ARRAY_BUFFER, id); }
 
 } // namespace gfx

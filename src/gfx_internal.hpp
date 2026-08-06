@@ -19,7 +19,7 @@ public:
   VertexBuffer &operator=(VertexBuffer &&) noexcept;
 
   static VertexBuffer create();
-  GLuint get() const noexcept;
+  void bind() noexcept;
 
 private:
   explicit VertexBuffer(GLuint) noexcept;
