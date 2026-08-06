@@ -5,9 +5,11 @@
 namespace gfx {
 
 namespace {
-constexpr GLfloat VERTICES[] = {-0.5f, -0.5f, 0.0f, //
-                                0.5f,  -0.5f, 0.0f, //
-                                0.0f,  0.5f,  0.0f};
+constexpr GLfloat VERTICES[] = {
+    // positions        // colors
+    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, //
+    0.5f,  -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, //
+    0.0f,  0.5f,  0.0f, 0.0f, 0.0f, 1.0f};
 }
 
 VertexBuffer::VertexBuffer(GLuint id) noexcept : id{id} {}
@@ -33,8 +35,16 @@ VertexBuffer VertexBuffer::create() {
   glGenBuffers(1, &id);
   glBindBuffer(GL_ARRAY_BUFFER, id);
   glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES), VERTICES, GL_STATIC_DRAW);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), nullptr);
+
+  // NOTE: Position attrs
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
+                        (void *)0);
   glEnableVertexAttribArray(0);
+  // NOTE: Color attrs
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
+                        (void *)(3 * sizeof(GLfloat)));
+  glEnableVertexAttribArray(1);
+
   return VertexBuffer{id};
 }
 

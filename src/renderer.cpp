@@ -11,18 +11,21 @@ namespace gfx {
 
 namespace {
 
-const char *VERTEX_SHADER_SRC =
-    "#version 300 es\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main()\n"
-    "{ gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0); }";
+const char *VERTEX_SHADER_SRC = "#version 300 es\n"
+                                "layout (location = 0) in vec3 aPos;\n"
+                                "layout (location = 1) in vec3 aColor;\n"
+                                "out vec3 ourColor;\n"
+                                "void main() {\n"
+                                "gl_Position = vec4(aPos, 1.0);\n"
+                                "ourColor = aColor;\n"
+                                "}";
 
-const char *FRAGMENT_SHADER_SRC =
-    "#version 300 es\n"
-    "precision mediump float;\n"
-    "out vec4 FragColor;\n"
-    "void main()\n"
-    "{ FragColor = vec4(0.0f, 1.0f, 0.0f, 1.0f); }";
+const char *FRAGMENT_SHADER_SRC = "#version 300 es\n"
+                                  "precision mediump float;\n"
+                                  "out vec4 FragColor;\n"
+                                  "in vec3 ourColor;\n"
+                                  "void main()\n"
+                                  "{ FragColor = vec4(ourColor, 1.0f); }";
 
 } // namespace
 
