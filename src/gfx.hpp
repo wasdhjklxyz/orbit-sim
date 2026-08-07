@@ -14,7 +14,7 @@ public:
 
   static std::expected<Renderer, std::string> create();
   void clear() noexcept;
-  void draw(const float deltaTime) const noexcept;
+  void draw(const float deltaTime) noexcept;
 
 private:
   struct Impl;

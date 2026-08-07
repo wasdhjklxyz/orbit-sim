@@ -1,5 +1,6 @@
 #include "gfx_internal.hpp"
 
+#include <GLES3/gl3.h>
 #include <format>
 
 namespace gfx {
@@ -114,6 +115,12 @@ ShaderProg::createImpl(std::span<const GLuint> shids) {
         std::format("Shader program linking failed: {}", sp.getInfoLog())};
   }
   return sp;
+}
+
+void ShaderProg::update(const float deltaTime) noexcept {
+  GLint loc = glGetUniformLocation(spid, "uTime");
+  elapsed += deltaTime;
+  glUniform1f(loc, elapsed);
 }
 
 } // namespace gfx

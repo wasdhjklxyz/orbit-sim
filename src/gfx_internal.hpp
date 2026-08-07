@@ -76,6 +76,7 @@ public:
     return createImpl(ids);
   }
   void use() const noexcept;
+  void update(const float deltaTime) noexcept;
 
 private:
   explicit ShaderProg(GLuint) noexcept;
@@ -84,6 +85,7 @@ private:
   std::string getInfoLog() const;
 
   GLuint spid{0};
+  float elapsed{0};
 };
 
 } // namespace gfx
