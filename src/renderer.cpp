@@ -9,25 +9,8 @@
 
 namespace gfx {
 
-namespace {
-
-const char *VERTEX_SHADER_SRC = "#version 300 es\n"
-                                "layout (location = 0) in vec3 aPos;\n"
-                                "layout (location = 1) in vec3 aColor;\n"
-                                "out vec3 ourColor;\n"
-                                "void main() {\n"
-                                "gl_Position = vec4(aPos, 1.0);\n"
-                                "ourColor = aColor;\n"
-                                "}";
-
-const char *FRAGMENT_SHADER_SRC = "#version 300 es\n"
-                                  "precision mediump float;\n"
-                                  "out vec4 FragColor;\n"
-                                  "in vec3 ourColor;\n"
-                                  "void main()\n"
-                                  "{ FragColor = vec4(ourColor, 1.0f); }";
-
-} // namespace
+#include "shaders/frag.glsl.hpp"
+#include "shaders/vert.glsl.hpp"
 
 struct Renderer::Impl {
   VertexArray vao;
@@ -41,13 +24,13 @@ Renderer &Renderer::operator=(Renderer &&) noexcept = default;
 Renderer::~Renderer() = default;
 
 std::expected<Renderer, std::string> Renderer::create() {
-  auto sh_r = Shader::compile(GL_VERTEX_SHADER, VERTEX_SHADER_SRC);
+  auto sh_r = Shader::compile(GL_VERTEX_SHADER, shaders::vert_glsl);
   if (!sh_r) {
     return std::unexpected{std::format("Vertex shader: {}", sh_r.error())};
   }
   Shader vsh = std::move(*sh_r);
 
-  sh_r = Shader::compile(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_SRC);
+  sh_r = Shader::compile(GL_FRAGMENT_SHADER, shaders::frag_glsl);
   if (!sh_r) {
     return std::unexpected{std::format("Fragment shader: {}", sh_r.error())};
   }
