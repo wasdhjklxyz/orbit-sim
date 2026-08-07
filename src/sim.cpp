@@ -1,0 +1,10 @@
+#include "sim.hpp"
+
+constexpr void Sim::add(Entity &&e) { entities.push_back(e); }
+
+constexpr std::span<const Entity> Sim::get() const noexcept { return entities; }
+
+void Sim::tick(const float deltaTime) noexcept {
+  for (auto &e : entities)
+    e.tick(deltaTime);
+}

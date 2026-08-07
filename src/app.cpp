@@ -12,8 +12,8 @@
 #include <format>
 #include <memory>
 
-#include "entity.hpp"
 #include "gfx.hpp"
+#include "sim.hpp"
 
 namespace {
 
@@ -43,7 +43,7 @@ struct App::Impl {
   WindowPtr window;
   GLCtxPtr glctx;
   std::unique_ptr<gfx::Renderer> renderer;
-  Entity e1{{}, {}}, e2{{}, {}};
+  Sim sim;
 
   float deltaTime() noexcept {
     Uint64 ct = SDL_GetTicks();
@@ -115,8 +115,7 @@ std::expected<App, std::string> App::create(const char *title) {
 
 std::expected<void, std::string> App::iterate() {
   const auto dt = impl->deltaTime();
-  impl->e1.tick(dt);
-  impl->e2.tick(dt);
+  impl->sim.tick(dt);
   impl->renderer->clear();
   impl->renderer->draw(dt);
   if (!SDL_GL_SwapWindow(impl->window.get())) {
