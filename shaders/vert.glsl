@@ -17,5 +17,6 @@ vec3 hue2rgb(float hue) {
 
 void main() {
   gl_Position = vec4(aPos, 1.0);
+  gl_PointSize = 10.0;
   ourColor = hue2rgb(fract(aHue - uTime / PERIOD));
 }

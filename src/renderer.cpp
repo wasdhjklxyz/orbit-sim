@@ -52,7 +52,7 @@ std::expected<Renderer, std::string> Renderer::create() {
 
 void Renderer::clear() noexcept { glClear(GL_COLOR_BUFFER_BIT); }
 
-void Renderer::draw(const float deltaTime, const Vec3f &pos) noexcept {
+void Renderer::draw(const float deltaTime, const Vec3d &pos) noexcept {
   impl->shp.use();
   impl->shp.update(deltaTime);
   impl->vbo.bind();

@@ -4,13 +4,15 @@
 
 namespace gfx {
 
-// namespace {
+namespace {
 // constexpr GLfloat VERTICES[] = {
 //     // positions        // hue
 //     -0.5f, -0.5f, 0.0f, 0.0f,     //
 //     0.5f,  -0.5f, 0.0f, 0.33333f, //
 //     0.0f,  0.5f,  0.0f, 0.66667f};
-// }
+constexpr double METERS_PER_NDC = 10;
+constexpr double INV_METERS_PER_NDC = 1.0 / METERS_PER_NDC;
+} // namespace
 
 VertexBuffer::VertexBuffer(GLuint id) noexcept : id{id} {}
 VertexBuffer::VertexBuffer(VertexBuffer &&other) noexcept
@@ -51,9 +53,14 @@ VertexBuffer VertexBuffer::create() {
 void VertexBuffer::bind() noexcept { glBindBuffer(GL_ARRAY_BUFFER, id); }
 void VertexBuffer::unbind() noexcept { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 
-void VertexBuffer::update(const Vec3f &pos) noexcept {
-  const GLfloat p[] = {pos.x, pos.y, pos.z};
-  glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(GLfloat), p);
+void VertexBuffer::update(const Vec3d &pos) noexcept {
+  // FIXME: Width height are defined in app.cpp!!!!!! Refactor!!!!!!!!!!
+  constexpr float aspect = float(720) / float(1280);
+  Vec3f p = static_cast<Vec3f>(pos * INV_METERS_PER_NDC);
+  p.x *= aspect;
+  static_assert(sizeof(Vec3f) == 3 * sizeof(GLfloat));
+  static_assert(std::is_standard_layout_v<Vec3f>);
+  glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(p), &p);
 }
 
 } // namespace gfx

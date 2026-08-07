@@ -23,7 +23,7 @@ public:
   static VertexBuffer create();
   void bind() noexcept;
   void unbind() noexcept;
-  void update(const Vec3f &) noexcept;
+  void update(const Vec3d &) noexcept;
 
 private:
   explicit VertexBuffer(GLuint) noexcept;

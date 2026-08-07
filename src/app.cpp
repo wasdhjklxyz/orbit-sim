@@ -122,7 +122,7 @@ std::expected<void, std::string> App::iterate() {
   impl->renderer->clear();
   if (!ents.empty()) {
     auto &e = ents[0];
-    impl->renderer->draw(dt, static_cast<Vec3f>(e.pos));
+    impl->renderer->draw(dt, e.pos);
   }
   if (!SDL_GL_SwapWindow(impl->window.get())) {
     return std::unexpected{
