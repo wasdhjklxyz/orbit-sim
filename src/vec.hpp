@@ -1,5 +1,7 @@
 #pragma once
 
+#include <concepts>
+
 template <typename T> struct Vec3 {
   constexpr Vec3 &operator+=(const Vec3 &rhs) noexcept {
     x += rhs.x;
@@ -60,10 +62,17 @@ template <typename T> struct Vec3 {
     return rhs;
   }
 
+  template <typename U>
+    requires(!std::same_as<U, T>)
+  explicit constexpr operator Vec3<U>() const noexcept {
+    return {static_cast<U>(x), static_cast<U>(y), static_cast<U>(z)};
+  }
+
   T x, y, z;
 };
 
 using Vec3d = Vec3<double>;
+using Vec3f = Vec3<float>;
 
 template <typename T>
 constexpr T dot(const Vec3<T> &a, const Vec3<T> &b) noexcept {
