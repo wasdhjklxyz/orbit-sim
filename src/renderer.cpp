@@ -53,7 +53,8 @@ std::expected<Renderer, std::string> Renderer::create() {
 
 void Renderer::clear() noexcept { glClear(GL_COLOR_BUFFER_BIT); }
 
-void Renderer::draw() const noexcept {
+void Renderer::draw(const float deltaTime) const noexcept {
+  (void)deltaTime;
   impl->shp.use();
   impl->vao.bind();
   glDrawArrays(GL_TRIANGLES, 0, 3);

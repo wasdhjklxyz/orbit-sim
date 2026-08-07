@@ -42,6 +42,16 @@ struct App::Impl {
   WindowPtr window;
   GLCtxPtr glctx;
   std::unique_ptr<gfx::Renderer> renderer;
+
+  float deltaTime() noexcept {
+    Uint64 ct = SDL_GetTicks();
+    float dt = static_cast<float>(ct - lastTime) / 1000.0f;
+    lastTime = ct;
+    return dt;
+  }
+
+private:
+  Uint64 lastTime{SDL_GetTicks()};
 };
 
 App::App(std::unique_ptr<Impl> p) noexcept : impl{std::move(p)} {}
@@ -97,12 +107,13 @@ std::expected<App, std::string> App::create(const char *title) {
   }
   impl->renderer = std::make_unique<gfx::Renderer>(std::move(*renderer));
 
+  (void)impl->deltaTime(); // NOTE: Update lastTime before we return
   return App{std::move(impl)};
 }
 
 std::expected<void, std::string> App::iterate() {
   impl->renderer->clear();
-  impl->renderer->draw();
+  impl->renderer->draw(impl->deltaTime());
   if (!SDL_GL_SwapWindow(impl->window.get())) {
     return std::unexpected{
         std::format("SDL_GL_SwapWindow: {}", SDL_GetError())};
