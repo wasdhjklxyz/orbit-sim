@@ -7,8 +7,8 @@
 
 class Sim {
 public:
-  constexpr void add(Entity &&);
-  constexpr std::span<const Entity> get() const noexcept;
+  void add(Entity &&);
+  std::span<const Entity> get() const noexcept;
   void tick(const float deltaTime) noexcept;
 
 private:

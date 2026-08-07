@@ -8,6 +8,8 @@
 #include <string>
 #include <string_view>
 
+#include "vec.hpp"
+
 namespace gfx {
 
 class VertexBuffer {
@@ -20,6 +22,8 @@ public:
 
   static VertexBuffer create();
   void bind() noexcept;
+  void unbind() noexcept;
+  void update(const Vec3f &) noexcept;
 
 private:
   explicit VertexBuffer(GLuint) noexcept;

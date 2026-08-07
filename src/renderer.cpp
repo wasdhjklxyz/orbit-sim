@@ -44,7 +44,6 @@ std::expected<Renderer, std::string> Renderer::create() {
   // TODO: Refactor all this VBO/VAO creation stuff
   VertexArray vao = VertexArray::create();
   VertexBuffer vbo = VertexBuffer::create();
-  vbo.bind();
   vao.unbind();
 
   return Renderer{std::make_unique<Impl>(std::move(vao), std::move(vbo),
@@ -53,11 +52,13 @@ std::expected<Renderer, std::string> Renderer::create() {
 
 void Renderer::clear() noexcept { glClear(GL_COLOR_BUFFER_BIT); }
 
-void Renderer::draw(const float deltaTime) noexcept {
+void Renderer::draw(const float deltaTime, const Vec3f &pos) noexcept {
   impl->shp.use();
   impl->shp.update(deltaTime);
+  impl->vbo.bind();
+  impl->vbo.update(pos);
   impl->vao.bind();
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glDrawArrays(GL_POINTS, 0, 1);
   impl->vao.unbind();
 }
 

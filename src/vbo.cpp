@@ -4,13 +4,13 @@
 
 namespace gfx {
 
-namespace {
-constexpr GLfloat VERTICES[] = {
-    // positions        // hue
-    -0.5f, -0.5f, 0.0f, 0.0f,     //
-    0.5f,  -0.5f, 0.0f, 0.33333f, //
-    0.0f,  0.5f,  0.0f, 0.66667f};
-}
+// namespace {
+// constexpr GLfloat VERTICES[] = {
+//     // positions        // hue
+//     -0.5f, -0.5f, 0.0f, 0.0f,     //
+//     0.5f,  -0.5f, 0.0f, 0.33333f, //
+//     0.0f,  0.5f,  0.0f, 0.66667f};
+// }
 
 VertexBuffer::VertexBuffer(GLuint id) noexcept : id{id} {}
 VertexBuffer::VertexBuffer(VertexBuffer &&other) noexcept
@@ -34,7 +34,7 @@ VertexBuffer VertexBuffer::create() {
   GLuint id;
   glGenBuffers(1, &id);
   glBindBuffer(GL_ARRAY_BUFFER, id);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES), VERTICES, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(GLfloat), nullptr, GL_DYNAMIC_DRAW);
 
   // NOTE: Position attrs
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat),
@@ -49,5 +49,11 @@ VertexBuffer VertexBuffer::create() {
 }
 
 void VertexBuffer::bind() noexcept { glBindBuffer(GL_ARRAY_BUFFER, id); }
+void VertexBuffer::unbind() noexcept { glBindBuffer(GL_ARRAY_BUFFER, 0); }
+
+void VertexBuffer::update(const Vec3f &pos) noexcept {
+  const GLfloat p[] = {pos.x, pos.y, pos.z};
+  glBufferSubData(GL_ARRAY_BUFFER, 0, 3 * sizeof(GLfloat), p);
+}
 
 } // namespace gfx

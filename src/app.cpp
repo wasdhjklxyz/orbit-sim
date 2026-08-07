@@ -109,15 +109,21 @@ std::expected<App, std::string> App::create(const char *title) {
   }
   impl->renderer = std::make_unique<gfx::Renderer>(std::move(*renderer));
 
+  impl->sim.add(Entity{{}, {1, 0, 0}});
+
   (void)impl->deltaTime(); // NOTE: Update lastTime before we return
   return App{std::move(impl)};
 }
 
 std::expected<void, std::string> App::iterate() {
   const auto dt = impl->deltaTime();
+  const auto ents = impl->sim.get();
   impl->sim.tick(dt);
   impl->renderer->clear();
-  impl->renderer->draw(dt);
+  if (!ents.empty()) {
+    auto &e = ents[0];
+    impl->renderer->draw(dt, static_cast<Vec3f>(e.pos));
+  }
   if (!SDL_GL_SwapWindow(impl->window.get())) {
     return std::unexpected{
         std::format("SDL_GL_SwapWindow: {}", SDL_GetError())};

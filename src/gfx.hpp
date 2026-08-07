@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 
+#include "vec.hpp"
+
 namespace gfx {
 
 class Renderer {
@@ -14,7 +16,7 @@ public:
 
   static std::expected<Renderer, std::string> create();
   void clear() noexcept;
-  void draw(const float deltaTime) noexcept;
+  void draw(const float deltaTime, const Vec3f &pos) noexcept;
 
 private:
   struct Impl;
