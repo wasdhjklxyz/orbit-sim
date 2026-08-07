@@ -43,9 +43,10 @@ template <typename T> struct Vec3 {
   }
 
   constexpr Vec3 &operator/=(T s) noexcept {
-    x /= s;
-    y /= s;
-    z /= s;
+    const T inv = T{1} / s;
+    x *= inv;
+    y *= inv;
+    z *= inv;
     return *this;
   }
 
