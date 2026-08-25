@@ -109,7 +109,7 @@ std::expected<App, std::string> App::create(const char *title) {
   }
   impl->renderer = std::make_unique<gfx::Renderer>(std::move(*renderer));
 
-  impl->sim.add(Entity{{}, {1, 0, 0}});
+  impl->sim.add(Entity{{}, {1, 0, 0}, 20});
 
   (void)impl->deltaTime(); // NOTE: Update lastTime before we return
   return App{std::move(impl)};
