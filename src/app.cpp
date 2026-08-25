@@ -109,7 +109,7 @@ std::expected<App, std::string> App::create(const char *title) {
   }
   impl->renderer = std::make_unique<gfx::Renderer>(std::move(*renderer));
 
-  impl->sim.add(Entity{{}, {1, 0, 0}, 20});
+  impl->sim.add(Entity{{}, {10, 0, 0}, 10});
 
   (void)impl->deltaTime(); // NOTE: Update lastTime before we return
   return App{std::move(impl)};
@@ -122,7 +122,7 @@ std::expected<void, std::string> App::iterate() {
   impl->renderer->clear();
   if (!ents.empty()) {
     auto &e = ents[0];
-    impl->renderer->draw(dt, e.pos);
+    impl->renderer->draw(dt, e.pos, e.radius);
   }
   if (!SDL_GL_SwapWindow(impl->window.get())) {
     return std::unexpected{

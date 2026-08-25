@@ -16,7 +16,8 @@ public:
 
   static std::expected<Renderer, std::string> create();
   void clear() noexcept;
-  void draw(const float deltaTime, const Vec3d &pos) noexcept;
+  void draw(const float deltaTime, const Vec3d &pos,
+            const double radius) noexcept;
 
 private:
   struct Impl;

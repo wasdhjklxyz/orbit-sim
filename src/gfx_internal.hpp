@@ -12,6 +12,9 @@
 
 namespace gfx {
 
+constexpr std::size_t NUM_VERTICES_CIRCLE = 32;
+static_assert(NUM_VERTICES_CIRCLE >= 3);
+
 class VertexBuffer {
 public:
   ~VertexBuffer() noexcept;
@@ -23,7 +26,7 @@ public:
   static VertexBuffer create();
   void bind() noexcept;
   void unbind() noexcept;
-  void update(const Vec3d &) noexcept;
+  void update(const Vec3d &pos, const double radius) noexcept;
 
 private:
   explicit VertexBuffer(GLuint) noexcept;

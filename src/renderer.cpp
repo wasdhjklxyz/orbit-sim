@@ -52,13 +52,14 @@ std::expected<Renderer, std::string> Renderer::create() {
 
 void Renderer::clear() noexcept { glClear(GL_COLOR_BUFFER_BIT); }
 
-void Renderer::draw(const float deltaTime, const Vec3d &pos) noexcept {
+void Renderer::draw(const float deltaTime, const Vec3d &pos,
+                    const double radius) noexcept {
   impl->shp.use();
   impl->shp.update(deltaTime);
   impl->vbo.bind();
-  impl->vbo.update(pos);
+  impl->vbo.update(pos, radius);
   impl->vao.bind();
-  glDrawArrays(GL_POINTS, 0, 1);
+  glDrawArrays(GL_TRIANGLE_FAN, 0, NUM_VERTICES_CIRCLE);
   impl->vao.unbind();
 }
 
