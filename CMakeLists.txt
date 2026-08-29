@@ -13,6 +13,10 @@ target_compile_features(${PROJECT} PRIVATE cxx_std_23)
 target_compile_options(${PROJECT} PRIVATE
   -Wall -Wextra -Wpedantic -Werror -Wno-experimental)
 
+target_link_options(${PROJECT} PRIVATE
+  $<$<CONFIG:Debug>:-g;-sASSERTIONS=2;-sGL_ASSERTIONS=1>
+  $<$<CONFIG:Release>:-O3>)
+
 find_package(SDL3 CONFIG REQUIRED)
 target_link_libraries(${PROJECT} PRIVATE SDL3::SDL3-static)
 
