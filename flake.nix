@@ -84,25 +84,29 @@
             ];
             buildInputs = [ sdl3 ];
 
+            env = {
+              EM_TOOLCHAIN = "${pkgs.emscripten}/share/emscripten/cmake/Modules/Platform/Emscripten.cmake";
+              SDL3_ROOT = "${sdl3}";
+            };
+
             configurePhase = ''
               runHook preConfigure
-              emcmake cmake -B build -S . -G Ninja \
+              cmake --preset release \
                 -DCMAKE_CXX_SCAN_FOR_MODULES=OFF \
-                -DCMAKE_FIND_ROOT_PATH=${sdl3} \
                 -DCMAKE_INSTALL_PREFIX=$out
               runHook postConfigure
             '';
 
             buildPhase = ''
               runHook preBuild
-              cmake --build build -j$NIX_BUILD_CORES
+              cmake --build --preset release -j$NIX_BUILD_CORES
               runHook postBuild
             '';
 
             installPhase = ''
               runHook preInstall
               mkdir -p $out/share/${finalAttrs.pname}
-              cp build/*.html build/*.js build/*.wasm \
+              cp build/release/*.html build/release/*.js build/release/*.wasm \
                 $out/share/${finalAttrs.pname}/
               runHook postInstall
             '';
@@ -136,11 +140,12 @@
               (writeShellScriptBin "cbr" ''
                 set -e
                 ${pkgs.emscripten}/bin/emcmake cmake \
-                  -B build -S . -G Ninja \
                   -DCMAKE_CXX_SCAN_FOR_MODULES=OFF \
-                  -DCMAKE_FIND_ROOT_PATH=${sdl3}
-                cmake --build build -j"$(nproc)"
-                ${pkgs.emscripten}/bin/emrun --verbose build/*.html
+                  --preset "''${1:-debug}"
+                ${pkgs.emscripten}/bin/emcmake cmake \
+                  --build --preset "''${1:-debug}" -j$(nproc)
+                ${pkgs.emscripten}/bin/emrun \
+                  --verbose build/''${1:-debug}/*.html
               '')
             ];
           };
