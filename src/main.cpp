@@ -4,11 +4,12 @@
 #include <print>
 
 #include "app.hpp"
+#include "config.h"
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
   (void)argc;
   (void)argv;
-  auto r = App::create("orbit-sim");
+  auto r = App::create(PROJECT);
   if (!r) {
     std::println(stderr, "SDL_AppInit: {}", r.error());
     return SDL_APP_FAILURE;

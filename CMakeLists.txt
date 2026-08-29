@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.3.4) # FIXME: Only tested w/ 4.3.4
-set(PROJECT orbit-sim)
+set(PROJECT vis-viva)
 project(${PROJECT} CXX)
 
 include(cmake/EmbedShaders.cmake)
@@ -25,3 +25,6 @@ else()
 endif()
 
 embed_shaders(${PROJECT} SOURCES shaders/vert.glsl shaders/frag.glsl)
+
+configure_file(src/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
+target_include_directories(${PROJECT} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
