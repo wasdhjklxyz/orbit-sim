@@ -43,7 +43,7 @@ std::expected<Renderer, std::string> Renderer::create() {
 
   // TODO: Refactor all this VBO/VAO creation stuff
   VertexArray vao = VertexArray::create();
-  VertexBuffer vbo = VertexBuffer::create(NUM_VERTICES_CIRCLE);
+  VertexBuffer vbo = VertexBuffer::create();
   vao.unbind();
 
   return Renderer{std::make_unique<Impl>(std::move(vao), std::move(vbo),

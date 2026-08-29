@@ -47,8 +47,8 @@ VertexBuffer &VertexBuffer::operator=(VertexBuffer &&other) noexcept {
   return *this;
 }
 
-VertexBuffer VertexBuffer::create(std::size_t num_vertices) {
-  const auto size = num_vertices * 3 * sizeof(GLfloat);
+VertexBuffer VertexBuffer::create(std::size_t max_vertices) {
+  const auto size = max_vertices * 3 * sizeof(GLfloat);
   GLuint id;
 
   glGenBuffers(1, &id);
@@ -81,7 +81,7 @@ void VertexBuffer::update(const Vec3d &pos, const double radius) noexcept {
     verts[i].x *= aspect;
 
   const auto size = sizeof(GLfloat) * 3 * verts.size();
-  assert(max_size == size);
+  assert(max_size >= size); // TODO: >= or > ?
   static_assert(sizeof(Vec3f) == 3 * sizeof(GLfloat));
   glBufferData(GL_ARRAY_BUFFER, size, verts.data(), GL_DYNAMIC_DRAW);
 }

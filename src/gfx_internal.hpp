@@ -23,7 +23,8 @@ public:
   VertexBuffer(VertexBuffer &&) noexcept;
   VertexBuffer &operator=(VertexBuffer &&) noexcept;
 
-  static VertexBuffer create(std::size_t num_vertices);
+  static VertexBuffer
+  create(std::size_t num_vertices = GL_MAX_ELEMENTS_VERTICES);
   void bind() noexcept;
   void unbind() noexcept;
   void update(const Vec3d &pos, const double radius) noexcept;
