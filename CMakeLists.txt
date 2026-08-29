@@ -13,10 +13,12 @@ target_compile_features(${PROJECT} PRIVATE cxx_std_23)
 target_compile_options(${PROJECT} PRIVATE
   -Wall -Wextra -Wpedantic -Werror -Wno-experimental)
 
+find_package(SDL3 CONFIG REQUIRED)
+target_link_libraries(${PROJECT} PRIVATE SDL3::SDL3-static)
+
 if(EMSCRIPTEN)
-  target_compile_options(${PROJECT} PRIVATE --use-port=sdl3)
   target_link_options(${PROJECT} PRIVATE
-    --emrun --use-port=sdl3 -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
+    --emrun -sMIN_WEBGL_VERSION=2 -sMAX_WEBGL_VERSION=2)
   set_target_properties(${PROJECT} PROPERTIES SUFFIX ".html")
 else()
   message("Emscripten is required" FATAL) # FIXME
