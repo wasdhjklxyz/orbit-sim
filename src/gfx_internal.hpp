@@ -23,14 +23,15 @@ public:
   VertexBuffer(VertexBuffer &&) noexcept;
   VertexBuffer &operator=(VertexBuffer &&) noexcept;
 
-  static VertexBuffer create();
+  static VertexBuffer create(std::size_t num_vertices);
   void bind() noexcept;
   void unbind() noexcept;
   void update(const Vec3d &pos, const double radius) noexcept;
 
 private:
-  explicit VertexBuffer(GLuint) noexcept;
+  explicit VertexBuffer(GLuint, std::size_t) noexcept;
   GLuint id;
+  std::size_t max_size;
 };
 
 class VertexArray {

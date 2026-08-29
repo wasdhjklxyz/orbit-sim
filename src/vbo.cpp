@@ -1,6 +1,7 @@
 #include "gfx_internal.hpp"
 
 #include <GLES3/gl3.h>
+#include <cassert>
 #include <cmath>
 #include <numbers>
 #include <vector>
@@ -26,9 +27,11 @@ static const auto UNIT_CIRCLE = unit_circle(NUM_VERTICES_CIRCLE - 2);
 
 } // namespace
 
-VertexBuffer::VertexBuffer(GLuint id) noexcept : id{id} {}
+VertexBuffer::VertexBuffer(GLuint id, std::size_t max_size) noexcept
+    : id{id}, max_size{max_size} {}
 VertexBuffer::VertexBuffer(VertexBuffer &&other) noexcept
-    : id{std::exchange(other.id, 0)} {}
+    : id{std::exchange(other.id, 0)},
+      max_size{std::exchange(other.max_size, 0)} {}
 
 VertexBuffer::~VertexBuffer() noexcept {
   // TODO: Unbind?
@@ -39,29 +42,24 @@ VertexBuffer &VertexBuffer::operator=(VertexBuffer &&other) noexcept {
   if (this != &other) {
     glDeleteBuffers(1, &id);
     id = std::exchange(other.id, 0);
+    max_size = std::exchange(other.max_size, 0);
   }
   return *this;
 }
 
-VertexBuffer VertexBuffer::create() {
-  // TODO: Error handling/checking, also fix hardcoded values lol
+VertexBuffer VertexBuffer::create(std::size_t num_vertices) {
+  const auto size = num_vertices * 3 * sizeof(GLfloat);
   GLuint id;
+
   glGenBuffers(1, &id);
   glBindBuffer(GL_ARRAY_BUFFER, id);
-  glBufferData(GL_ARRAY_BUFFER, NUM_VERTICES_CIRCLE * sizeof(GLfloat) * 3,
-               nullptr, GL_DYNAMIC_DRAW);
 
-  // NOTE: Position attrs
+  glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
                         (void *)0);
   glEnableVertexAttribArray(0);
-  // NOTE: Hue attrs
-  // glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE,
-  //                       NUM_VERTICES_CIRCLE * sizeof(GLfloat),
-  //                       (void *)(3 * sizeof(GLfloat)));
-  // glEnableVertexAttribArray(1);
 
-  return VertexBuffer{id};
+  return VertexBuffer{id, size};
 }
 
 void VertexBuffer::bind() noexcept { glBindBuffer(GL_ARRAY_BUFFER, id); }
@@ -82,8 +80,10 @@ void VertexBuffer::update(const Vec3d &pos, const double radius) noexcept {
   for (std::size_t i = 0; i < verts.size(); i++)
     verts[i].x *= aspect;
 
-  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * verts.size() * 3,
-               verts.data(), GL_DYNAMIC_DRAW);
+  const auto size = sizeof(GLfloat) * 3 * verts.size();
+  assert(max_size == size);
+  static_assert(sizeof(Vec3f) == 3 * sizeof(GLfloat));
+  glBufferData(GL_ARRAY_BUFFER, size, verts.data(), GL_DYNAMIC_DRAW);
 }
 
 } // namespace gfx
