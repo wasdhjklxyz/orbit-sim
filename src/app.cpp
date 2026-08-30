@@ -17,7 +17,7 @@
 namespace {
 
 std::expected<Sim, std::string> create_simulation() {
-  Sim sim{METERS_WIDTH, METERS_HEIGHT};
+  Sim sim{};
   sim.add(Entity{{100, 0, 0}, {-20, 0, 0}, 20});
   sim.add(Entity{{-100, 0, 0}, {40, 0, 0}, 10});
   return sim;

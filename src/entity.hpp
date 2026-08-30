@@ -14,3 +14,8 @@ struct Entity {
   Vec3d vel;
   double radius;
 };
+
+struct Wall { // NOTE: Infinite mass
+  explicit Wall(Vec3d a, Vec3d b) noexcept;
+  Vec3d a, b;
+};
