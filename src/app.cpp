@@ -10,16 +10,14 @@
 #include <expected>
 #include <format>
 
+#include "config.h"
 #include "gfx.hpp"
 #include "sim.hpp"
 
 namespace {
 
-constexpr int WIDTH = 1280;
-constexpr int HEIGHT = 720;
-
 std::expected<Sim, std::string> create_simulation() {
-  Sim sim{};
+  Sim sim{METERS_WIDTH, METERS_HEIGHT};
   sim.add(Entity{{100, 0, 0}, {-20, 0, 0}, 20});
   sim.add(Entity{{-100, 0, 0}, {40, 0, 0}, 10});
   return sim;

@@ -13,9 +13,6 @@
 
 namespace gfx {
 
-constexpr std::size_t NUM_VERTICES_CIRCLE = 32;
-static_assert(NUM_VERTICES_CIRCLE >= 3);
-
 class VB {
 public:
 private:

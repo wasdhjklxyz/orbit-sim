@@ -10,13 +10,12 @@
 #include <utility>
 #include <vector>
 
+#include "config.h"
+
 namespace gfx {
 
 #include "shaders/frag.glsl.hpp"
 #include "shaders/vert.glsl.hpp"
-
-constexpr float METERS_PER_NDC = 200; // NOTE: World units per half screen
-constexpr float ASPECT_RATIO = float(720) / float(1280); // FIXME: Refactor
 
 static std::vector<Vec3f> mk_unit_circle(std::size_t n) {
   constexpr float TAU = 2.0 * std::numbers::pi_v<double>;
