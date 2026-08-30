@@ -7,6 +7,7 @@
 #include <span>
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include "vec.hpp"
 
@@ -14,6 +15,12 @@ namespace gfx {
 
 constexpr std::size_t NUM_VERTICES_CIRCLE = 32;
 static_assert(NUM_VERTICES_CIRCLE >= 3);
+
+class VB {
+public:
+private:
+  std::vector<Vec3f> buf;
+};
 
 class VertexBuffer {
 public:
@@ -28,11 +35,15 @@ public:
   void bind() noexcept;
   void unbind() noexcept;
   void update(const Vec3d &pos, const double radius) noexcept;
+  void push(std::span<Vec3f> data) noexcept;
+  std::size_t flush() noexcept;
 
 private:
-  explicit VertexBuffer(GLuint, std::size_t) noexcept;
+  explicit VertexBuffer(GLuint id, std::size_t max_size,
+                        std::vector<Vec3f> &&buf) noexcept;
   GLuint id;
   std::size_t max_size;
+  std::vector<Vec3f> buf;
 };
 
 class VertexArray {

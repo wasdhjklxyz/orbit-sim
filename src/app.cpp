@@ -20,6 +20,7 @@ constexpr int HEIGHT = 720;
 
 std::expected<Sim, std::string> create_simulation() {
   Sim sim{};
+  sim.add(Entity{{}, {0, 10, 0}, 10});
   sim.add(Entity{{}, {10, 0, 0}, 10});
   return sim;
 }
@@ -78,17 +79,16 @@ std::expected<App, std::string> App::create(const char *title) {
 
 std::expected<void, std::string> App::iterate() {
   const auto dt = deltaTime();
-  const auto ents = sim.get();
   sim.tick(dt);
+
   renderer->clear();
-  if (!ents.empty()) {
-    auto &e = ents[0];
-    renderer->draw(dt, e.pos, e.radius);
-  }
-  if (!SDL_GL_SwapWindow(window.get())) {
+  for (const auto &e : sim.get())
+    renderer->draw_circle(static_cast<Vec3f>(e.pos), e.radius);
+  renderer->present(dt);
+
+  if (!SDL_GL_SwapWindow(window.get()))
     return std::unexpected{
         std::format("SDL_GL_SwapWindow: {}", SDL_GetError())};
-  }
   return {};
 }
 

@@ -7,7 +7,7 @@
 
 class Sim {
 public:
-  void add(Entity &&);
+  void add(Entity);
   std::span<const Entity> get() const noexcept;
   void tick(const float deltaTime) noexcept;
 
