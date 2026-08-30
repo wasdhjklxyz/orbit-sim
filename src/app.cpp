@@ -7,6 +7,8 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_error.h>
 #include <SDL3/SDL_video.h>
+#include <ctime>
+#include <emscripten.h>
 #include <expected>
 #include <format>
 
@@ -16,10 +18,21 @@
 
 namespace {
 
+double rand_range(double lo, double hi) {
+  return lo + emscripten_random() * (hi - lo);
+}
+
 std::expected<Sim, std::string> create_simulation() {
   Sim sim{};
-  sim.add(Entity{{100, 0, 0}, {-20, 0, 0}, 20});
-  sim.add(Entity{{-100, 0, 0}, {40, 0, 0}, 10});
+  for (std::size_t i = 0; i < 14; i++) {
+    const double r = rand_range(10, 33);
+    sim.add(Entity{
+        {rand_range(-METERS_WIDTH / 2 + r, METERS_WIDTH / 2 - r),
+         rand_range(-METERS_HEIGHT / 2 + r, METERS_HEIGHT / 2 - r), 0},
+        {rand_range(-100, 300), rand_range(-300, 100), 0},
+        r,
+    });
+  }
   return sim;
 }
 
