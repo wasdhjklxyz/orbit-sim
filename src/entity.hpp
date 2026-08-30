@@ -4,7 +4,12 @@
 
 struct Entity {
   explicit Entity(Vec3d pos, Vec3d vel, double radius) noexcept;
+
   void tick(const float deltaTime) noexcept;
+  void tick(const Entity &other) noexcept;
+  bool intersects(const Entity &other) const noexcept;
+  void collide(Entity &other) noexcept;
+
   Vec3d pos;
   Vec3d vel;
   double radius;

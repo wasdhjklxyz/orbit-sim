@@ -68,17 +68,14 @@ template <typename T> struct Vec3 {
     return {static_cast<U>(x), static_cast<U>(y), static_cast<U>(z)};
   }
 
+  constexpr T dot(const Vec3 &other) const noexcept {
+    return x * other.x + y * other.y + z * other.z;
+  }
+
+  constexpr T length_squared() const noexcept { return dot(*this); }
+
   T x, y, z;
 };
 
 using Vec3d = Vec3<double>;
 using Vec3f = Vec3<float>;
-
-template <typename T>
-constexpr T dot(const Vec3<T> &a, const Vec3<T> &b) noexcept {
-  return a.x * b.x + a.y * b.y + a.z * b.z;
-}
-
-template <typename T> constexpr T length_squared(const Vec3<T> &v) noexcept {
-  return dot(v, v);
-}

@@ -20,8 +20,8 @@ constexpr int HEIGHT = 720;
 
 std::expected<Sim, std::string> create_simulation() {
   Sim sim{};
-  sim.add(Entity{{}, {0, 10, 0}, 10});
-  sim.add(Entity{{}, {10, 0, 0}, 10});
+  sim.add(Entity{{100, 0, 0}, {-20, 0, 0}, 20});
+  sim.add(Entity{{-100, 0, 0}, {40, 0, 0}, 10});
   return sim;
 }
 
