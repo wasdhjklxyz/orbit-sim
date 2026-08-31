@@ -4,19 +4,18 @@
 
 #include <concepts>
 #include <expected>
+#include <glm/ext/vector_float2.hpp>
 #include <span>
 #include <string>
 #include <string_view>
 #include <vector>
-
-#include "vec.hpp"
 
 namespace gfx {
 
 class VB {
 public:
 private:
-  std::vector<Vec3f> buf;
+  std::vector<glm::vec2> buf;
 };
 
 class VertexBuffer {
@@ -31,16 +30,15 @@ public:
   create(std::size_t num_vertices = GL_MAX_ELEMENTS_VERTICES);
   void bind() noexcept;
   void unbind() noexcept;
-  void update(const Vec3d &pos, const double radius) noexcept;
-  void push(std::span<Vec3f> data) noexcept;
+  void push(std::span<glm::vec2> data) noexcept;
   std::size_t flush() noexcept;
 
 private:
   explicit VertexBuffer(GLuint id, std::size_t max_size,
-                        std::vector<Vec3f> &&buf) noexcept;
+                        std::vector<glm::vec2> &&buf) noexcept;
   GLuint id;
   std::size_t max_size;
-  std::vector<Vec3f> buf;
+  std::vector<glm::vec2> buf;
 };
 
 class VertexArray {

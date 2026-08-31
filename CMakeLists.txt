@@ -38,3 +38,12 @@ set(METERS_PER_NDC 200.0)
 set(NUM_VERTICES_CIRCLE 32)
 configure_file(src/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
 target_include_directories(${PROJECT} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
+
+include(FetchContent)
+FetchContent_Declare(
+  glm
+  GIT_REPOSITORY https://github.com/g-truc/glm.git
+  GIT_TAG 8d1fd52e5ab5590e2c81768ace50c72bae28f2ed # 1.0.3
+)
+FetchContent_MakeAvailable(glm)
+target_link_libraries(${PROJECT} PRIVATE glm::glm)

@@ -7,7 +7,7 @@
 namespace gfx {
 
 VertexBuffer::VertexBuffer(GLuint id, std::size_t max_size,
-                           std::vector<Vec3f> &&buf) noexcept
+                           std::vector<glm::vec2> &&buf) noexcept
     : id{id}, max_size{max_size}, buf{buf} {}
 
 VertexBuffer::VertexBuffer(VertexBuffer &&other) noexcept
@@ -30,18 +30,18 @@ VertexBuffer &VertexBuffer::operator=(VertexBuffer &&other) noexcept {
 }
 
 VertexBuffer VertexBuffer::create(std::size_t max_vertices) {
-  const auto size = max_vertices * 3 * sizeof(GLfloat);
+  const auto size = max_vertices * 2 * sizeof(GLfloat);
   GLuint id;
 
   glGenBuffers(1, &id);
   glBindBuffer(GL_ARRAY_BUFFER, id);
 
   glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat),
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat),
                         (void *)0);
   glEnableVertexAttribArray(0);
 
-  std::vector<Vec3f> buf;
+  std::vector<glm::vec2> buf;
   buf.reserve(size);
 
   return VertexBuffer{id, size, std::move(buf)};
@@ -50,12 +50,12 @@ VertexBuffer VertexBuffer::create(std::size_t max_vertices) {
 void VertexBuffer::bind() noexcept { glBindBuffer(GL_ARRAY_BUFFER, id); }
 void VertexBuffer::unbind() noexcept { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 
-void VertexBuffer::push(std::span<Vec3f> data) noexcept {
+void VertexBuffer::push(std::span<glm::vec2> data) noexcept {
   buf.append_range(data);
 }
 
 std::size_t VertexBuffer::flush() noexcept {
-  const auto size = sizeof(GLfloat) * 3 * buf.size();
+  const auto size = sizeof(GLfloat) * 2 * buf.size();
   assert(max_size >= size); // TODO: >= or > ?
   glBufferData(GL_ARRAY_BUFFER, size, buf.data(), GL_DYNAMIC_DRAW);
   buf.clear();

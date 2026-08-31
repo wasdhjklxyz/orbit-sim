@@ -11,6 +11,7 @@
 #include <emscripten.h>
 #include <expected>
 #include <format>
+#include <glm/ext/vector_double2.hpp>
 
 #include "config.h"
 #include "gfx.hpp"
@@ -27,9 +28,9 @@ std::expected<Sim, std::string> create_simulation() {
   for (std::size_t i = 0; i < 14; i++) {
     const double r = rand_range(10, 33);
     sim.add(Entity{
-        {rand_range(-METERS_WIDTH / 2 + r, METERS_WIDTH / 2 - r),
-         rand_range(-METERS_HEIGHT / 2 + r, METERS_HEIGHT / 2 - r), 0},
-        {rand_range(-100, 300), rand_range(-300, 100), 0},
+        glm::dvec2(rand_range(-METERS_WIDTH / 2 + r, METERS_WIDTH / 2 - r),
+                   rand_range(-METERS_HEIGHT / 2 + r, METERS_HEIGHT / 2 - r)),
+        glm::dvec2(rand_range(-100, 300), rand_range(-300, 100)),
         r,
     });
   }
@@ -94,7 +95,7 @@ std::expected<void, std::string> App::iterate() {
 
   renderer->clear();
   for (const auto &e : sim.get())
-    renderer->draw_circle(static_cast<Vec3f>(e.pos), e.radius);
+    renderer->draw_circle(e.pos, e.radius);
   renderer->present(dt);
 
   if (!SDL_GL_SwapWindow(window.get()))
@@ -104,8 +105,8 @@ std::expected<void, std::string> App::iterate() {
 }
 
 float App::deltaTime() noexcept {
-  Uint64 ct = SDL_GetTicks();
-  float dt = static_cast<float>(ct - lastTime) / 1000.0f;
+  const auto ct = SDL_GetTicks();
+  const double dt = static_cast<double>(ct - lastTime) / 1000;
   lastTime = ct;
   return dt;
 }

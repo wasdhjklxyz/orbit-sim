@@ -42,7 +42,8 @@ private:
   explicit App(SDL_Window *window, SDL_GLContext glctx, Sim sim,
                RendererPtr renderer) noexcept
       : window{window}, glctx{glctx}, sim{std::move(sim)},
-        renderer{std::move(renderer)}, lastTime{SDL_GetTicks()} {}
+        renderer{std::move(renderer)},
+        lastTime{static_cast<double>(SDL_GetTicks())} {}
 
   float deltaTime() noexcept;
 
@@ -50,5 +51,5 @@ private:
   SdlGLCtx glctx;
   Sim sim;
   RendererPtr renderer;
-  Uint64 lastTime;
+  double lastTime;
 };

@@ -1,10 +1,9 @@
 #pragma once
 
 #include <expected>
+#include <glm/ext/vector_float2.hpp>
 #include <memory>
 #include <string>
-
-#include "vec.hpp"
 
 namespace gfx {
 
@@ -16,7 +15,7 @@ public:
 
   static std::expected<Renderer, std::string> create();
   void clear() noexcept;
-  void draw_circle(const Vec3f &center, const float radius) noexcept;
+  void draw_circle(const glm::vec2 &center, const float radius) noexcept;
   void present(const float deltaTime) noexcept;
 
 private:

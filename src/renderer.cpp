@@ -5,8 +5,10 @@
 #include <cassert>
 #include <expected>
 #include <format>
+#include <glm/ext/scalar_constants.hpp>
+#include <glm/gtc/constants.hpp>
+#include <glm/trigonometric.hpp>
 #include <memory>
-#include <numbers>
 #include <utility>
 #include <vector>
 
@@ -17,12 +19,11 @@ namespace gfx {
 #include "shaders/frag.glsl.hpp"
 #include "shaders/vert.glsl.hpp"
 
-static std::vector<Vec3f> mk_unit_circle(std::size_t n) {
-  constexpr float TAU = 2.0 * std::numbers::pi_v<double>;
-  std::vector<Vec3f> uc(n);
+static std::vector<glm::vec2> mk_unit_circle(std::size_t n) {
+  std::vector<glm::vec2> uc(n);
   for (std::size_t i = 0; i < n; i++) {
-    const float t = TAU * i / n;
-    uc[i] = Vec3f{std::cos(t), std::sin(t), 0.0};
+    const float t = glm::two_pi<float>() * i / n;
+    uc[i] = glm::vec2(glm::cos(t), glm::sin(t));
   }
   return uc;
 }
@@ -68,9 +69,10 @@ std::expected<Renderer, std::string> Renderer::create() {
 
 void Renderer::clear() noexcept { glClear(GL_COLOR_BUFFER_BIT); }
 
-void Renderer::draw_circle(const Vec3f &center, const float radius) noexcept {
+void Renderer::draw_circle(const glm::vec2 &center,
+                           const float radius) noexcept {
   const auto center_ndc = center / METERS_PER_NDC;
-  std::array<Vec3f, NUM_VERTICES_CIRCLE> buf{center_ndc};
+  std::array<glm::vec2, NUM_VERTICES_CIRCLE> buf{center_ndc};
 
   // FIXME: Refactor the NDC scale of unit circle, dont
   //        care now since this is inefficient anyways
