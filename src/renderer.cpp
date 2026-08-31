@@ -8,6 +8,7 @@
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/trigonometric.hpp>
+#include <glm/vec3.hpp>
 #include <memory>
 #include <utility>
 #include <vector>

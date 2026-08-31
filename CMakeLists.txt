@@ -8,7 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(${PROJECT}
   src/main.cpp src/app.cpp
   src/entity.cpp src/sim.cpp
-  src/renderer.cpp src/shaders.cpp src/vbo.cpp src/vao.cpp)
+  src/renderer.cpp src/shaders.cpp src/vbo.cpp src/vao.cpp src/sphere.cpp)
 target_compile_features(${PROJECT} PRIVATE cxx_std_23)
 target_compile_options(${PROJECT} PRIVATE
   -Wall -Wextra -Wpedantic -Werror -Wno-experimental)
@@ -36,6 +36,8 @@ set(WIDTH 1280)
 set(HEIGHT 720)
 set(METERS_PER_NDC 200.0)
 set(NUM_VERTICES_CIRCLE 32)
+set(NUM_SECTORS_SPHERE 36)
+set(NUM_STACKS_SPHERE 18)
 configure_file(src/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
 target_include_directories(${PROJECT} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
