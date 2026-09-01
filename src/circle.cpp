@@ -17,6 +17,8 @@ static constexpr std::size_t MIN_SECTOR_COUNT = 1;
 Circle::Circle(float radius, std::size_t sectors)
     : radius{glm::max(radius, float(0))},
       sectors{glm::max(sectors, MIN_SECTOR_COUNT)} {
+  vertices.reserve(sectors + 1);
+  indicies.reserve(sectors * 3);
   build_vertices();
   build_indicies();
 }

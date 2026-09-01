@@ -20,6 +20,8 @@ Sphere::Sphere(float radius, std::size_t sectors, std::size_t stacks) noexcept
     : radius{glm::max(radius, float(0))},
       sectors{glm::max(sectors, MIN_SECTOR_COUNT)},
       stacks{glm::max(stacks, MIN_STACK_COUNT)} {
+  vertices.reserve((stacks + 1) * (sectors + 1));
+  indicies.reserve((stacks - 1) * sectors * 6);
   build_vertices();
   build_indicies();
 }
@@ -41,7 +43,7 @@ void Sphere::build_vertices() {
 
 void Sphere::build_indicies() {
   indicies.clear();
-  for (std::size_t i = 0; i <= stacks; i++) {
+  for (std::size_t i = 0; i < stacks; i++) {
     auto k1 = i * (sectors + 1); // NOTE: Beginning of current stack
     auto k2 = k1 + sectors + 1;  // NOTE: Beginning of next stack
     for (std::size_t k = 0; k < sectors; k++, k1++, k2++) {
