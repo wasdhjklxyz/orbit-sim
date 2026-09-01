@@ -17,30 +17,30 @@ static constexpr std::size_t MIN_SECTOR_COUNT = 1;
 Circle::Circle(float radius, std::size_t sectors)
     : radius{glm::max(radius, float(0))},
       sectors{glm::max(sectors, MIN_SECTOR_COUNT)} {
-  vertices.reserve(sectors + 1);
-  indicies.reserve(sectors * 3);
+  vertices_.reserve(sectors + 1);
+  indicies_.reserve(sectors * 3);
   build_vertices();
   build_indicies();
 }
 
 void Circle::build_vertices() {
   const float sector_step = glm::two_pi<float>() / sectors;
-  vertices.clear();
-  vertices.push_back({0, 0, 0}); // NOTE: Center
+  vertices_.clear();
+  vertices_.push_back({0, 0, 0}); // NOTE: Center
   for (std::size_t k = 0; k <= sectors; k++) {
     const float theta = sector_step * k;
-    vertices.push_back(
+    vertices_.push_back(
         glm::vec3(glm::cos(theta) * radius, glm::sin(theta) * radius, 0));
   }
 }
 
 void Circle::build_indicies() {
-  indicies.clear();
+  indicies_.clear();
   constexpr auto center_idx = 0;
   for (std::size_t i = 0; i < sectors; i++) {
-    indicies.push_back(i + 1);
-    indicies.push_back((i + 2) % sectors);
-    indicies.push_back(center_idx);
+    indicies_.push_back(i + 1);
+    indicies_.push_back((i + 2) % sectors);
+    indicies_.push_back(center_idx);
   }
 }
 

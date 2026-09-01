@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <glm/vec3.hpp>
+#include <span>
 
 #include "config.h"
 
@@ -11,8 +12,12 @@ class Mesh {
 protected:
   virtual void build_vertices();
   virtual void build_indicies();
-  std::vector<glm::vec3> vertices;
-  std::vector<std::size_t> indicies; // NOTE: CCW index list of triangles
+  std::vector<glm::vec3> vertices_;
+  std::vector<std::size_t> indicies_; // NOTE: CCW index list of triangles
+
+public:
+  std::span<const glm::vec3> vertices() const noexcept { return vertices_; }
+  std::span<const std::size_t> indicies() const noexcept { return indicies_; }
 };
 
 class Sphere : Mesh {
