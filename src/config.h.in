@@ -11,6 +11,6 @@ inline constexpr float ASPECT_RATIO = float(HEIGHT) / float(WIDTH);
 inline constexpr float METERS_HEIGHT = 2.0f * METERS_PER_NDC;
 inline constexpr float METERS_WIDTH = METERS_HEIGHT / ASPECT_RATIO;
 
-inline constexpr size_t NUM_VERTICES_CIRCLE = @NUM_VERTICES_CIRCLE@;
+inline constexpr size_t NUM_SECTORS_CIRCLE = @NUM_SECTORS_CIRCLE@;
 inline constexpr size_t NUM_SECTORS_SPHERE = @NUM_SECTORS_SPHERE@;
 inline constexpr size_t NUM_STACKS_SPHERE = @NUM_STACKS_SPHERE@;
