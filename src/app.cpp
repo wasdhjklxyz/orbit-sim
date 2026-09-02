@@ -11,7 +11,7 @@
 #include <emscripten.h>
 #include <expected>
 #include <format>
-#include <glm/ext/vector_double2.hpp>
+#include <glm/ext/vector_double3.hpp>
 
 #include "config.h"
 #include "gfx.hpp"
@@ -28,9 +28,10 @@ std::expected<Sim, std::string> create_simulation() {
   for (std::size_t i = 0; i < MAX_ENTITIES; i++) {
     const double r = rand_range(10, 32);
     sim.add(Entity{
-        glm::dvec2(rand_range(-METERS_WIDTH / 2 + r, METERS_WIDTH / 2 - r),
-                   rand_range(-METERS_HEIGHT / 2 + r, METERS_HEIGHT / 2 - r)),
-        glm::dvec2(rand_range(-100, 300), rand_range(-300, 100)),
+        glm::dvec3(rand_range(-METERS_WIDTH / 2 + r, METERS_WIDTH / 2 - r),
+                   rand_range(-METERS_HEIGHT / 2 + r, METERS_HEIGHT / 2 - r),
+                   0),
+        glm::dvec3(rand_range(-100, 300), rand_range(-300, 100), 0),
         r,
     });
   }

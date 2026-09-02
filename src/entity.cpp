@@ -2,10 +2,10 @@
 
 #include <ctime>
 #include <glm/common.hpp>
-#include <glm/ext/vector_double2.hpp>
+#include <glm/ext/vector_double3.hpp>
 #include <glm/geometric.hpp>
 
-Entity::Entity(glm::dvec2 pos, glm::dvec2 vel, double radius) noexcept
+Entity::Entity(glm::dvec3 pos, glm::dvec3 vel, double radius) noexcept
     : pos{pos}, vel{vel}, radius{radius} {}
 
 void Entity::tick(const float deltaTime) noexcept {
