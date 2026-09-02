@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.3.4) # FIXME: Only tested w/ 4.3.4
-set(PROJECT vis-viva)
+set(PROJECT orbit-sim)
 project(${PROJECT} CXX)
 
 include(cmake/EmbedShaders.cmake)

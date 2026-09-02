@@ -75,7 +75,7 @@
           sdl3-wasm = sdl3;
 
           default = pkgs.buildEmscriptenPackage (finalAttrs: {
-            name = "vis-viva";
+            name = "orbit-sim";
             src = lib.cleanSource ./.;
 
             nativeBuildInputs = with pkgs; [
