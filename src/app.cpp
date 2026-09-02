@@ -25,8 +25,8 @@ double rand_range(double lo, double hi) {
 
 std::expected<Sim, std::string> create_simulation() {
   Sim sim{};
-  for (std::size_t i = 0; i < 14; i++) {
-    const double r = rand_range(10, 33);
+  for (std::size_t i = 0; i < MAX_ENTITIES; i++) {
+    const double r = rand_range(10, 32);
     sim.add(Entity{
         glm::dvec2(rand_range(-METERS_WIDTH / 2 + r, METERS_WIDTH / 2 - r),
                    rand_range(-METERS_HEIGHT / 2 + r, METERS_HEIGHT / 2 - r)),
@@ -95,7 +95,7 @@ std::expected<void, std::string> App::iterate() {
 
   renderer->clear();
   for (const auto &e : sim.get())
-    renderer->draw_circle(e.pos, e.radius);
+    renderer->draw_circle({e.pos.x, e.pos.y, 0.f, e.radius});
   renderer->present(dt);
 
   if (!SDL_GL_SwapWindow(window.get()))

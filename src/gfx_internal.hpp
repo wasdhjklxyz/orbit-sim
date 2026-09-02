@@ -4,59 +4,12 @@
 
 #include <concepts>
 #include <expected>
-#include <glm/ext/vector_float2.hpp>
+#include <glm/mat4x4.hpp>
 #include <span>
 #include <string>
 #include <string_view>
-#include <vector>
 
 namespace gfx {
-
-class VB {
-public:
-private:
-  std::vector<glm::vec2> buf;
-};
-
-class VertexBuffer {
-public:
-  ~VertexBuffer() noexcept;
-  VertexBuffer(const VertexBuffer &) = delete;
-  VertexBuffer &operator=(const VertexBuffer &) = delete;
-  VertexBuffer(VertexBuffer &&) noexcept;
-  VertexBuffer &operator=(VertexBuffer &&) noexcept;
-
-  static VertexBuffer
-  create(std::size_t num_vertices = GL_MAX_ELEMENTS_VERTICES);
-  void bind() noexcept;
-  void unbind() noexcept;
-  void push(std::span<glm::vec2> data) noexcept;
-  std::size_t flush() noexcept;
-
-private:
-  explicit VertexBuffer(GLuint id, std::size_t max_size,
-                        std::vector<glm::vec2> &&buf) noexcept;
-  GLuint id;
-  std::size_t max_size;
-  std::vector<glm::vec2> buf;
-};
-
-class VertexArray {
-public:
-  ~VertexArray() noexcept;
-  VertexArray(const VertexArray &) = delete;
-  VertexArray &operator=(const VertexArray &) = delete;
-  VertexArray(VertexArray &&) noexcept;
-  VertexArray &operator=(VertexArray &&) noexcept;
-
-  static VertexArray create();
-  void bind() noexcept;
-  static void unbind() noexcept;
-
-private:
-  explicit VertexArray(GLuint) noexcept;
-  GLuint id;
-};
 
 class Shader {
 public:
@@ -92,6 +45,7 @@ public:
   }
   void use() const noexcept;
   void update(const float deltaTime) noexcept;
+  void proj(const glm::mat4 &m) const noexcept;
 
 private:
   explicit ShaderProg(GLuint) noexcept;

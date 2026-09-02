@@ -1,10 +1,12 @@
 #version 300 es
 
 layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec4 aInst;
 
 out vec3 ourColor;
 
 uniform float uTime;
+uniform mat4 uProj;
 
 const float PERIOD = 20.0f;
 
@@ -15,6 +17,6 @@ vec3 hue2rgb(float hue) {
 }
 
 void main() {
-  gl_Position = vec4(aPos, 1.0);
+  gl_Position = uProj * vec4(aInst.xyz + aPos * aInst.w, 1.0);
   ourColor = hue2rgb(fract(1.0 - uTime / PERIOD));
 }

@@ -5,35 +5,34 @@
 #include <cassert>
 #include <expected>
 #include <format>
+#include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/gtc/constants.hpp>
+#include <glm/mat4x4.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
 #include <memory>
 #include <utility>
-#include <vector>
 
 #include "config.h"
+#include "geom.hpp"
+#include "gpu.hpp"
 
 namespace gfx {
 
 #include "shaders/frag.glsl.hpp"
 #include "shaders/vert.glsl.hpp"
 
-static std::vector<glm::vec2> mk_unit_circle(std::size_t n) {
-  std::vector<glm::vec2> uc(n);
-  for (std::size_t i = 0; i < n; i++) {
-    const float t = glm::two_pi<float>() * i / n;
-    uc[i] = glm::vec2(glm::cos(t), glm::sin(t));
-  }
-  return uc;
-}
-static const auto UNIT_CIRCLE = mk_unit_circle(NUM_VERTICES_CIRCLE - 2);
-
 struct Renderer::Impl {
-  VertexArray vao;
-  VertexBuffer vbo;
+  gpu::Mesh mesh;
+  gpu::Batch batch;
   ShaderProg shp;
+  glm::mat4 proj;
+
+  Impl(const geom::Mesh &g, std::size_t max, ShaderProg &&s) noexcept
+      : mesh{g}, batch{mesh, max}, shp{std::move(s)},
+        proj{glm::ortho(-METERS_WIDTH / 2.f, METERS_WIDTH / 2.f,
+                        -METERS_HEIGHT / 2.f, METERS_HEIGHT / 2.f)} {}
 };
 
 Renderer::Renderer(std::unique_ptr<Impl> p) noexcept : impl{std::move(p)} {}
@@ -59,44 +58,22 @@ std::expected<Renderer, std::string> Renderer::create() {
     return std::unexpected{std::format("Shader program: {}", shp_r.error())};
   }
 
-  // TODO: Refactor all this VBO/VAO creation stuff
-  VertexArray vao = VertexArray::create();
-  VertexBuffer vbo = VertexBuffer::create();
-  vao.unbind();
-
-  return Renderer{std::make_unique<Impl>(std::move(vao), std::move(vbo),
-                                         std::move(*shp_r))};
+  static const geom::Circle circle{};
+  return Renderer{
+      std::make_unique<Impl>(circle, MAX_ENTITIES, std::move(*shp_r))};
 }
 
 void Renderer::clear() noexcept { glClear(GL_COLOR_BUFFER_BIT); }
 
-void Renderer::draw_circle(const glm::vec2 &center,
-                           const float radius) noexcept {
-  const auto center_ndc = center / METERS_PER_NDC;
-  std::array<glm::vec2, NUM_VERTICES_CIRCLE> buf{center_ndc};
-
-  // FIXME: Refactor the NDC scale of unit circle, dont
-  //        care now since this is inefficient anyways
-  for (std::size_t i = 0; i < NUM_VERTICES_CIRCLE - 2; i++)
-    buf[i + 1] = center_ndc + radius * (UNIT_CIRCLE[i] / METERS_PER_NDC);
-  buf[NUM_VERTICES_CIRCLE - 1] = buf[1];
-  for (std::size_t i = 0; i < buf.size(); i++)
-    buf[i].x *= ASPECT_RATIO;
-
-  impl->vbo.push(buf);
+void Renderer::draw_circle(const glm::vec4 &xyzr) noexcept {
+  impl->batch.push(xyzr);
 }
 
 void Renderer::present(const float deltaTime) noexcept {
   impl->shp.use();
   impl->shp.update(deltaTime);
-  impl->vbo.bind();
-  const auto count = impl->vbo.flush();
-  impl->vao.bind();
-  assert(count % NUM_VERTICES_CIRCLE == 0);
-  // FIXME: See glDrawArraysInstanced this is dumb
-  for (std::size_t i = 0; i < count; i += NUM_VERTICES_CIRCLE)
-    glDrawArrays(GL_TRIANGLE_FAN, i, NUM_VERTICES_CIRCLE);
-  impl->vao.unbind();
+  impl->shp.proj(impl->proj);
+  impl->batch.flush();
 }
 
 }; // namespace gfx

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <expected>
-#include <glm/ext/vector_float2.hpp>
+#include <glm/vec4.hpp>
 #include <memory>
 #include <string>
 
@@ -15,7 +15,7 @@ public:
 
   static std::expected<Renderer, std::string> create();
   void clear() noexcept;
-  void draw_circle(const glm::vec2 &center, const float radius) noexcept;
+  void draw_circle(const glm::vec4 &) noexcept;
   void present(const float deltaTime) noexcept;
 
 private:

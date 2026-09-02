@@ -2,6 +2,7 @@
 
 #include <GLES3/gl3.h>
 #include <format>
+#include <glm/mat4x4.hpp>
 
 namespace gfx {
 
@@ -121,6 +122,11 @@ void ShaderProg::update(const float deltaTime) noexcept {
   GLint loc = glGetUniformLocation(spid, "uTime");
   elapsed += deltaTime;
   glUniform1f(loc, elapsed);
+}
+
+void ShaderProg::proj(const glm::mat4 &m) const noexcept {
+  GLint loc = glGetUniformLocation(spid, "uProj");
+  glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
 } // namespace gfx
