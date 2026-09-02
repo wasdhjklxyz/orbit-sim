@@ -1,11 +1,13 @@
 #include "sim.hpp"
 
-#include <glm/exponential.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/norm.hpp>
 
+#include <ctime>
+#include <glm/exponential.hpp>
+#include <glm/ext/vector_double3.hpp>
+
 #include "config.h"
-#include "entity.hpp"
 
 namespace {
 constexpr auto EPSILON = 5.0;
@@ -47,4 +49,13 @@ double Sim::energy() const noexcept {
             glm::sqrt(glm::length2(entities[k].pos - entities[i].pos) +
                       EPSILON * EPSILON);
   return ke + pe;
+}
+
+Entity::Entity(glm::dvec3 pos, glm::dvec3 vel, double radius,
+               double mass) noexcept
+    : pos{pos}, vel{vel}, acc{0}, radius{radius}, mass{mass} {}
+
+void Entity::tick(const float deltaTime) noexcept {
+  vel += acc * double(deltaTime);
+  pos += vel * double(deltaTime);
 }
