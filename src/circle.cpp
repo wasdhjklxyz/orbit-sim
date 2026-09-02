@@ -14,9 +14,7 @@ namespace {
 static constexpr GLsizei MIN_SECTOR_COUNT = 1;
 } // namespace
 
-Circle::Circle(float radius, GLsizei sectors)
-    : radius{glm::max(radius, float(0))},
-      sectors{glm::max(sectors, MIN_SECTOR_COUNT)} {
+Circle::Circle(GLsizei sectors) : sectors{glm::max(sectors, MIN_SECTOR_COUNT)} {
   vertices_.reserve(sectors + 1);
   indicies_.reserve(sectors * 3);
   build_vertices();
@@ -29,8 +27,7 @@ void Circle::build_vertices() {
   vertices_.push_back({0, 0, 0}); // NOTE: Center
   for (auto k = 0; k < sectors; k++) {
     const float theta = sector_step * k;
-    vertices_.push_back(
-        glm::vec3(glm::cos(theta) * radius, glm::sin(theta) * radius, 0));
+    vertices_.push_back(glm::vec3(glm::cos(theta), glm::sin(theta), 0));
   }
 }
 

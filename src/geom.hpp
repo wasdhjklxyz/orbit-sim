@@ -23,27 +23,25 @@ public:
 
 class Sphere : Mesh {
 public:
-  explicit Sphere(float radius = 1, GLsizei sectors = NUM_SECTORS_SPHERE,
+  explicit Sphere(GLsizei sectors = NUM_SECTORS_SPHERE,
                   GLsizei stacks = NUM_STACKS_SPHERE) noexcept;
 
 private:
   void build_vertices() override;
   void build_indicies() override;
 
-  float radius;
   GLsizei sectors; // NOTE: Longitude, # of slices
   GLsizei stacks;  // NOTE: Latitude, # of stacks
 };
 
 class Circle : Mesh {
 public:
-  explicit Circle(float radius = 1, GLsizei sectors = NUM_SECTORS_CIRCLE);
+  explicit Circle(GLsizei sectors = NUM_SECTORS_CIRCLE);
 
 private:
   void build_vertices() override;
   void build_indicies() override;
 
-  float radius;
   GLsizei sectors;
 };
 
