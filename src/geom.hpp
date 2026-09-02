@@ -11,8 +11,7 @@ namespace gfx::geom {
 
 class Mesh {
 protected:
-  virtual void build_vertices();
-  virtual void build_indicies();
+  ~Mesh() = default;
   std::vector<glm::vec3> vertices_;
   std::vector<GLuint> indicies_; // NOTE: CCW index list of triangles
 
@@ -21,26 +20,26 @@ public:
   std::span<const GLuint> indicies() const noexcept { return indicies_; }
 };
 
-class Sphere : Mesh {
+class Sphere : public Mesh {
 public:
   explicit Sphere(GLuint sectors = NUM_SECTORS_SPHERE,
                   GLuint stacks = NUM_STACKS_SPHERE) noexcept;
 
 private:
-  void build_vertices() override;
-  void build_indicies() override;
+  void build_vertices();
+  void build_indicies();
 
   GLuint sectors; // NOTE: Longitude, # of slices
   GLuint stacks;  // NOTE: Latitude, # of stacks
 };
 
-class Circle : Mesh {
+class Circle : public Mesh {
 public:
   explicit Circle(GLuint sectors = NUM_SECTORS_CIRCLE);
 
 private:
-  void build_vertices() override;
-  void build_indicies() override;
+  void build_vertices();
+  void build_indicies();
 
   GLuint sectors;
 };
