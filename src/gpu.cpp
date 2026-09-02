@@ -68,9 +68,9 @@ template <BufferSource BS> void Buffer::update(BS &&src) noexcept {
 Mesh::Mesh(const geom::Mesh &geom) noexcept
     : vbo{GL_ARRAY_BUFFER, GL_STATIC_DRAW},
       ibo{GL_ELEMENT_ARRAY_BUFFER, GL_STATIC_DRAW},
-      index_count_{static_cast<GLsizei>(geom.indicies().size())} {
+      index_count_{static_cast<GLuint>(geom.indices().size())} {
   vbo.set(geom.vertices());
-  ibo.set(geom.indicies());
+  ibo.set(geom.indices());
   // FIXME: Unbind? Reserve at all with set?
 }
 

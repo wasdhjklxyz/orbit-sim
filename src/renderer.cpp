@@ -32,7 +32,8 @@ struct Renderer::Impl {
   Impl(const geom::Mesh &g, std::size_t max, ShaderProg &&s) noexcept
       : mesh{g}, batch{mesh, max}, shp{std::move(s)},
         proj{glm::ortho(-METERS_WIDTH / 2.f, METERS_WIDTH / 2.f,
-                        -METERS_HEIGHT / 2.f, METERS_HEIGHT / 2.f)} {}
+                        -METERS_HEIGHT / 2.f, METERS_HEIGHT / 2.f, -1000.f,
+                        1000.f)} {}
 };
 
 Renderer::Renderer(std::unique_ptr<Impl> p) noexcept : impl{std::move(p)} {}
@@ -58,12 +59,15 @@ std::expected<Renderer, std::string> Renderer::create() {
     return std::unexpected{std::format("Shader program: {}", shp_r.error())};
   }
 
-  static const geom::Circle circle{};
+  static const geom::Sphere sphere{};
   return Renderer{
-      std::make_unique<Impl>(circle, MAX_ENTITIES, std::move(*shp_r))};
+      std::make_unique<Impl>(sphere, MAX_ENTITIES, std::move(*shp_r))};
 }
 
-void Renderer::clear() noexcept { glClear(GL_COLOR_BUFFER_BIT); }
+void Renderer::clear() noexcept {
+  glEnable(GL_DEPTH_TEST);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
 
 void Renderer::draw_circle(const glm::vec4 &xyzr) noexcept {
   impl->batch.push(xyzr);
