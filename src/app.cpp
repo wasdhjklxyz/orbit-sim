@@ -24,7 +24,7 @@ namespace {
 std::expected<Sim, std::string> create_simulation() {
   constexpr double M = 1.3e6;
   constexpr double r = 150.0;
-  const double v = glm::sqrt(G * M / r);
+  const double v = 0.8 * glm::sqrt(G * M / r);
   Sim sim{};
   sim.add(Entity{{0, 0, 0}, {0, 0, 0}, 30.0, M});
   sim.add(Entity{{r, 0, 0}, {0, v, 0}, 5.0, 1});
