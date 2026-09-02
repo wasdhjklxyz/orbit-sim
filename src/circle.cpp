@@ -16,9 +16,9 @@ static constexpr GLuint MIN_SECTOR_COUNT = 1;
 
 Circle::Circle(GLuint sectors) : sectors{glm::max(sectors, MIN_SECTOR_COUNT)} {
   vertices_.reserve(sectors + 1);
-  indicies_.reserve(sectors * 3);
+  indices_.reserve(sectors * 3);
   build_vertices();
-  build_indicies();
+  build_indices();
 }
 
 void Circle::build_vertices() {
@@ -31,13 +31,13 @@ void Circle::build_vertices() {
   }
 }
 
-void Circle::build_indicies() {
-  indicies_.clear();
+void Circle::build_indices() {
+  indices_.clear();
   constexpr auto center_idx = 0;
   for (GLuint i = 0; i < sectors; i++) {
-    indicies_.push_back(i + 1);
-    indicies_.push_back(1 + ((i + 1) % sectors));
-    indicies_.push_back(center_idx);
+    indices_.push_back(i + 1);
+    indices_.push_back(1 + ((i + 1) % sectors));
+    indices_.push_back(center_idx);
   }
 }
 

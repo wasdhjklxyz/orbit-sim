@@ -20,9 +20,9 @@ Sphere::Sphere(GLuint sectors, GLuint stacks) noexcept
     : sectors{glm::max(sectors, MIN_SECTOR_COUNT)},
       stacks{glm::max(stacks, MIN_STACK_COUNT)} {
   vertices_.reserve((stacks + 1) * (sectors + 1));
-  indicies_.reserve((stacks - 1) * sectors * 6);
+  indices_.reserve((stacks - 1) * sectors * 6);
   build_vertices();
-  build_indicies();
+  build_indices();
 }
 
 void Sphere::build_vertices() {
@@ -40,22 +40,22 @@ void Sphere::build_vertices() {
   }
 }
 
-void Sphere::build_indicies() {
-  indicies_.clear();
+void Sphere::build_indices() {
+  indices_.clear();
   for (GLuint i = 0; i < stacks; i++) {
     auto k1 = i * (sectors + 1); // NOTE: Beginning of current stack
     auto k2 = k1 + sectors + 1;  // NOTE: Beginning of next stack
     for (GLuint k = 0; k < sectors; k++, k1++, k2++) {
       /* NOTE: Two triangles per sector excluding first and last stacks */
       if (i != 0) {
-        indicies_.push_back(k1);
-        indicies_.push_back(k2);
-        indicies_.push_back(k1 + 1);
+        indices_.push_back(k1);
+        indices_.push_back(k2);
+        indices_.push_back(k1 + 1);
       }
       if (i != stacks - 1) {
-        indicies_.push_back(k1 + 1);
-        indicies_.push_back(k2);
-        indicies_.push_back(k2 + 1);
+        indices_.push_back(k1 + 1);
+        indices_.push_back(k2);
+        indices_.push_back(k2 + 1);
       }
     }
   }

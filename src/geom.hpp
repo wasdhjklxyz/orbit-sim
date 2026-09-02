@@ -13,11 +13,11 @@ class Mesh {
 protected:
   ~Mesh() = default;
   std::vector<glm::vec3> vertices_;
-  std::vector<GLuint> indicies_; // NOTE: CCW index list of triangles
+  std::vector<GLuint> indices_; // NOTE: CCW index list of triangles
 
 public:
   std::span<const glm::vec3> vertices() const noexcept { return vertices_; }
-  std::span<const GLuint> indicies() const noexcept { return indicies_; }
+  std::span<const GLuint> indices() const noexcept { return indices_; }
 };
 
 class Sphere : public Mesh {
@@ -27,7 +27,7 @@ public:
 
 private:
   void build_vertices();
-  void build_indicies();
+  void build_indices();
 
   GLuint sectors; // NOTE: Longitude, # of slices
   GLuint stacks;  // NOTE: Latitude, # of stacks
@@ -39,7 +39,7 @@ public:
 
 private:
   void build_vertices();
-  void build_indicies();
+  void build_indices();
 
   GLuint sectors;
 };
