@@ -11,7 +11,9 @@
 #include <emscripten.h>
 #include <expected>
 #include <format>
+#include <glm/exponential.hpp>
 #include <glm/ext/vector_double3.hpp>
+#include <print>
 
 #include "config.h"
 #include "gfx.hpp"
@@ -19,22 +21,13 @@
 
 namespace {
 
-double rand_range(double lo, double hi) {
-  return lo + emscripten_random() * (hi - lo);
-}
-
 std::expected<Sim, std::string> create_simulation() {
+  constexpr double M = 1.3e6;
+  constexpr double r = 150.0;
+  const double v = glm::sqrt(G * M / r);
   Sim sim{};
-  for (std::size_t i = 0; i < MAX_ENTITIES; i++) {
-    const double r = rand_range(10, 32);
-    sim.add(Entity{
-        glm::dvec3(rand_range(-METERS_WIDTH / 2 + r, METERS_WIDTH / 2 - r),
-                   rand_range(-METERS_HEIGHT / 2 + r, METERS_HEIGHT / 2 - r),
-                   0),
-        glm::dvec3(rand_range(-100, 300), rand_range(-300, 100), 0),
-        r,
-    });
-  }
+  sim.add(Entity{{0, 0, 0}, {0, 0, 0}, 30.0, M});
+  sim.add(Entity{{r, 0, 0}, {0, v, 0}, 5.0, 1});
   return sim;
 }
 
@@ -98,6 +91,8 @@ std::expected<void, std::string> App::iterate() {
   for (const auto &e : sim.get())
     renderer->draw_circle({e.pos.x, e.pos.y, 0.f, e.radius});
   renderer->present(dt);
+
+  std::println("{}", sim.energy());
 
   if (!SDL_GL_SwapWindow(window.get()))
     return std::unexpected{

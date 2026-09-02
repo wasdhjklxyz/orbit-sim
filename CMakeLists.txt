@@ -39,6 +39,7 @@ set(NUM_SECTORS_CIRCLE 32)
 set(NUM_SECTORS_SPHERE 36)
 set(NUM_STACKS_SPHERE 18)
 set(MAX_ENTITIES 16)
+set(G 1.0)
 configure_file(src/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
 target_include_directories(${PROJECT} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
