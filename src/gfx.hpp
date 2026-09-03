@@ -15,7 +15,7 @@ public:
 
   static std::expected<Renderer, std::string> create();
   void clear() noexcept;
-  void draw_circle(const glm::vec4 &) noexcept;
+  void draw_sphere(const glm::vec4 &) noexcept;
   void present(double delta_time) noexcept;
 
 private:

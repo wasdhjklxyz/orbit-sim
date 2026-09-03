@@ -88,7 +88,7 @@ std::expected<void, std::string> App::iterate() {
 
   renderer->clear();
   for (const auto &e : sim.get())
-    renderer->draw_circle({e.pos.x, e.pos.y, 0.f, e.radius});
+    renderer->draw_sphere({e.pos.x, e.pos.y, e.pos.z, e.radius});
   renderer->present(dt);
 
   if (!SDL_GL_SwapWindow(window.get()))

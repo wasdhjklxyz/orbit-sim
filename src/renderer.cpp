@@ -69,7 +69,7 @@ void Renderer::clear() noexcept {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Renderer::draw_circle(const glm::vec4 &xyzr) noexcept {
+void Renderer::draw_sphere(const glm::vec4 &xyzr) noexcept {
   impl->batch.push(xyzr);
 }
 
