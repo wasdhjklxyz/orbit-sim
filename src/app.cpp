@@ -62,6 +62,7 @@ std::expected<App, std::string> App::create(const char *title) {
   if (!window_raw)
     return std::unexpected{std::format("SDL_CreateWindow: {}", SDL_GetError())};
 
+  // ERROR: Mouse stuttor and is fucking shit
   // if (!SDL_SetWindowRelativeMouseMode(window_raw, true))
   //   return std::unexpected{
   //       std::format("SDL_SetWindowRelativeMouseMode: {}", SDL_GetError())};
@@ -92,8 +93,9 @@ std::expected<void, std::string> App::iterate(const bool *kb_state) {
   sim.tick(dt);
 
   /* TODO: FIXME: Refactor */
+  /* ERROR: Mouse stuttor and is fucking shit*/
+  // SDL_GetRelativeMouseState(&dx, &dy);
   float dx = 0.f, dy = 0.f;
-  SDL_GetRelativeMouseState(&dx, &dy);
   renderer->move_camera(kb_state[SDL_SCANCODE_W], kb_state[SDL_SCANCODE_S],
                         kb_state[SDL_SCANCODE_D], kb_state[SDL_SCANCODE_A],
                         kb_state[SDL_SCANCODE_SPACE],
