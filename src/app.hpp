@@ -43,13 +43,13 @@ private:
                RendererPtr renderer) noexcept
       : window{window}, glctx{glctx}, sim{std::move(sim)},
         renderer{std::move(renderer)},
-        lastTime{static_cast<double>(SDL_GetTicks())} {}
+        last_time{static_cast<double>(SDL_GetTicks())} {}
 
-  float deltaTime() noexcept;
+  double delta_time() noexcept;
 
   SdlWindow window;
   SdlGLCtx glctx;
   Sim sim;
   RendererPtr renderer;
-  double lastTime;
+  double last_time;
 };

@@ -83,7 +83,7 @@ std::expected<App, std::string> App::create(const char *title) {
 }
 
 std::expected<void, std::string> App::iterate() {
-  const auto dt = deltaTime();
+  const auto dt = delta_time();
   sim.tick(dt);
 
   renderer->clear();
@@ -97,9 +97,9 @@ std::expected<void, std::string> App::iterate() {
   return {};
 }
 
-float App::deltaTime() noexcept {
+double App::delta_time() noexcept {
   const auto ct = SDL_GetTicks();
-  const double dt = static_cast<double>(ct - lastTime) / 1000;
-  lastTime = ct;
+  const double dt = static_cast<double>(ct - last_time) / 1000;
+  last_time = ct;
   return dt;
 }

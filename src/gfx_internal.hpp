@@ -44,7 +44,7 @@ public:
     return createImpl(ids);
   }
   void use() const noexcept;
-  void update(const float deltaTime) noexcept;
+  void update(double delta_time) noexcept;
   void proj(const glm::mat4 &m) const noexcept;
 
 private:

@@ -73,9 +73,9 @@ void Renderer::draw_circle(const glm::vec4 &xyzr) noexcept {
   impl->batch.push(xyzr);
 }
 
-void Renderer::present(const float deltaTime) noexcept {
+void Renderer::present(double delta_time) noexcept {
   impl->shp.use();
-  impl->shp.update(deltaTime);
+  impl->shp.update(delta_time);
   impl->shp.proj(impl->proj);
   impl->batch.flush();
 }

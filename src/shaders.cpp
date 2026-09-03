@@ -118,9 +118,9 @@ ShaderProg::createImpl(std::span<const GLuint> shids) {
   return sp;
 }
 
-void ShaderProg::update(const float deltaTime) noexcept {
+void ShaderProg::update(double delta_time) noexcept {
   GLint loc = glGetUniformLocation(spid, "uTime");
-  elapsed += deltaTime;
+  elapsed += delta_time;
   glUniform1f(loc, elapsed);
 }
 
