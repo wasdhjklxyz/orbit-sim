@@ -27,13 +27,13 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
       (event->type == SDL_EVENT_KEY_DOWN && event->key.key == SDLK_Q)) {
     return SDL_APP_SUCCESS;
   }
+  const bool *kb = SDL_GetKeyboardState(nullptr);
+  static_cast<App *>(appstate)->handle_kb_state(kb);
   return SDL_APP_CONTINUE;
 }
 
 SDL_AppResult SDL_AppIterate(void *appstate) {
-  auto *app = static_cast<App *>(appstate);
-  const bool *kb = SDL_GetKeyboardState(nullptr);
-  auto r = app->iterate(kb);
+  auto r = static_cast<App *>(appstate)->iterate();
   if (!r) {
     std::println(stderr, "SDL_AppIterate: {}", r.error());
     return SDL_APP_FAILURE;
