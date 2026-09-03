@@ -17,7 +17,7 @@
 
 namespace gfx {
 
-constexpr auto WORLD_UP = glm::vec3(0.f, 1.f, 0.f);
+inline constexpr glm::vec3 WORLD_UP{0.f, 1.f, 0.f};
 
 class Shader {
 public:
