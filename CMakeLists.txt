@@ -42,7 +42,7 @@ set(G 1.0)
 set(PERSPECTIVE_FOV 60.0)
 set(PERSPECTIVE_NEAR 1.0)
 set(PERSPECTIVE_FAR 1000.0)
-set(MOUSE_SENS 3.0)
+set(MOUSE_SENS 0.3)
 configure_file(src/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
 target_include_directories(${PROJECT} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}")
 
