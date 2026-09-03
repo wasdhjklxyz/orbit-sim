@@ -13,7 +13,6 @@
 #include <format>
 #include <glm/exponential.hpp>
 #include <glm/ext/vector_double3.hpp>
-#include <print>
 
 #include "config.h"
 #include "gfx.hpp"
@@ -22,12 +21,12 @@
 namespace {
 
 std::expected<Sim, std::string> create_simulation() {
-  constexpr double M = 1.3e6;
-  constexpr double r = 150.0;
-  const double v = 0.8 * glm::sqrt(G * M / r);
   Sim sim{};
-  sim.add(Entity{{0, 0, 0}, {0, 0, 0}, 30.0, M});
-  sim.add(Entity{{r, 0, 0}, {0, v, 0}, 5.0, 1});
+  sim.add(Entity{{-120, 0, 0}, {0, -10, 0}, 30.0, 30.0});
+  sim.add(Entity{{120, 0, 0}, {0, 10, 0}, 30.0, 30.0});
+  sim.add(Entity{{0, 120, 0}, {-10, 0, 0}, 30.0, 30.0});
+  sim.add(Entity{{0, -120, 0}, {10, 0, 0}, 30.0, 30.0});
+  sim.add(Entity{{0, 0, 0}, {0, 0, 0}, 30.0, 30.0});
   return sim;
 }
 
@@ -91,8 +90,6 @@ std::expected<void, std::string> App::iterate() {
   for (const auto &e : sim.get())
     renderer->draw_circle({e.pos.x, e.pos.y, 0.f, e.radius});
   renderer->present(dt);
-
-  std::println("{}", sim.energy());
 
   if (!SDL_GL_SwapWindow(window.get()))
     return std::unexpected{
