@@ -6,6 +6,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_error.h>
+#include <SDL3/SDL_mouse.h>
 #include <SDL3/SDL_video.h>
 #include <ctime>
 #include <emscripten.h>
@@ -61,6 +62,10 @@ std::expected<App, std::string> App::create(const char *title) {
   if (!window_raw)
     return std::unexpected{std::format("SDL_CreateWindow: {}", SDL_GetError())};
 
+  if (!SDL_SetWindowRelativeMouseMode(window_raw, true))
+    return std::unexpected{
+        std::format("SDL_SetWindowRelativeMouseMode: {}", SDL_GetError())};
+
   auto glctx_raw = SDL_GL_CreateContext(window_raw);
   if (!glctx_raw)
     return std::unexpected{
@@ -85,11 +90,16 @@ std::expected<App, std::string> App::create(const char *title) {
 std::expected<void, std::string> App::iterate(const bool *kb_state) {
   const auto dt = delta_time();
   sim.tick(dt);
-  renderer->clear();
+
+  /* TODO: FIXME: Refactor */
+  float dx = 0.f, dy = 0.f;
+  SDL_GetRelativeMouseState(&dx, &dy);
   renderer->move_camera(kb_state[SDL_SCANCODE_W], kb_state[SDL_SCANCODE_S],
                         kb_state[SDL_SCANCODE_D], kb_state[SDL_SCANCODE_A],
                         kb_state[SDL_SCANCODE_SPACE],
-                        kb_state[SDL_SCANCODE_LCTRL]);
+                        kb_state[SDL_SCANCODE_LCTRL], dx, dy, dt);
+
+  renderer->clear();
   for (const auto &e : sim.get())
     renderer->draw_sphere({e.pos.x, e.pos.y, e.pos.z, e.radius});
   renderer->present(dt);

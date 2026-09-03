@@ -14,7 +14,6 @@
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
 #include <memory>
-#include <print>
 #include <utility>
 
 #include "config.h"
@@ -77,8 +76,8 @@ void Renderer::draw_sphere(const glm::vec4 &xyzr) noexcept {
 }
 
 void Renderer::move_camera(bool forward, bool backward, bool right, bool left,
-                           bool up, bool down) noexcept {
-  /* FIXME */
+                           bool up, bool down, float mouse_dx, float mouse_dy,
+                           double delta_time) noexcept { /* FIXME LOL */
   glm::vec3 dir{0.f};
   if (forward)
     dir += impl->cam.forward();
@@ -92,14 +91,12 @@ void Renderer::move_camera(bool forward, bool backward, bool right, bool left,
     dir += WORLD_UP;
   if (down)
     dir -= WORLD_UP;
-  std::print("Renderer::move_camera(): dir=<{},{},{}>\n", dir.x, dir.y, dir.z);
-  impl->cam.move(dir, 0.f, 180.f);
+  impl->cam.update(dir, mouse_dx, mouse_dy, delta_time);
 }
 
 void Renderer::present(double delta_time) noexcept {
   impl->shp.use();
   impl->shp.update(delta_time);
-  impl->cam.update(delta_time);
   impl->shp.view(impl->cam.view());
   impl->shp.proj(impl->proj);
   impl->batch.flush();

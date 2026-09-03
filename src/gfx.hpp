@@ -19,7 +19,8 @@ public:
   void draw_sphere(const glm::vec4 &) noexcept;
   void present(double delta_time) noexcept;
   void move_camera(bool forward, bool backward, bool right, bool left, bool up,
-                   bool down) noexcept; // FIXME
+                   bool down, float pitch, float yaw,
+                   double delta_time) noexcept; /* FIXME LOL */
 
 private:
   struct Impl;

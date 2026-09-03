@@ -18,3 +18,5 @@ inline constexpr int NUM_STACKS_SPHERE = @NUM_STACKS_SPHERE@;
 inline constexpr std::size_t MAX_ENTITIES = @MAX_ENTITIES@;
 
 inline constexpr double G = @G@;
+
+inline constexpr std::size_t MOUSE_SENS = @MOUSE_SENS@;
