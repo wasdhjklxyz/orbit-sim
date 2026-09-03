@@ -85,13 +85,13 @@ void Renderer::move_camera(bool forward, bool backward, bool right, bool left,
   constexpr float ANG_ACC_DEG = 45.0f;
   float dyaw_deg = 0.f, dpitch_deg = 0.f;
   if (look_up)
-    dpitch_deg += ANG_ACC_DEG;
-  if (look_down)
     dpitch_deg -= ANG_ACC_DEG;
+  if (look_down)
+    dpitch_deg += ANG_ACC_DEG;
   if (look_right)
-    dyaw_deg -= ANG_ACC_DEG;
-  if (look_left)
     dyaw_deg += ANG_ACC_DEG;
+  if (look_left)
+    dyaw_deg -= ANG_ACC_DEG;
   impl->cam.look(dyaw_deg * delta_time, dpitch_deg * delta_time);
 
   glm::vec3 dir{0.f};
