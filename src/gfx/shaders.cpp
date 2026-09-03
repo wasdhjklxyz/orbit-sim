@@ -1,8 +1,16 @@
 #include "gfx_internal.hpp"
 
 #include <GLES3/gl3.h>
-#include <format>
+#include <glm/ext/matrix_float4x4.hpp>
 #include <glm/mat4x4.hpp>
+
+#include <cstddef>
+#include <expected>
+#include <format>
+#include <span>
+#include <string>
+#include <string_view>
+#include <utility>
 
 namespace gfx {
 

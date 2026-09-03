@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-inline constexpr const char* PROJECT = "@PROJECT@";
+inline constexpr const char* PROJECT = "@PROJECT_NAME@";
 inline constexpr int WIDTH = @WIDTH@;
 inline constexpr int HEIGHT = @HEIGHT@;
 inline constexpr float ASPECT_RATIO = float(WIDTH) / float(HEIGHT);

@@ -1,11 +1,14 @@
 #pragma once
 
 #include <GLES3/gl3.h>
+#include <glm/ext/matrix_float4x4.hpp>
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/vector_float3.hpp>
+#include <glm/geometric.hpp>
+#include <glm/mat4x4.hpp>
 
 #include <concepts>
 #include <expected>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/mat4x4.hpp>
 #include <span>
 #include <string>
 #include <string_view>

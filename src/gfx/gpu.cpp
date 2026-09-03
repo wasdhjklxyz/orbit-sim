@@ -1,13 +1,17 @@
 #include "gpu.hpp"
 
+#include "geom.hpp"
+
 #include <GLES3/gl3.h>
+#include <glm/ext/vector_float3.hpp>
+#include <glm/ext/vector_float4.hpp>
+#include <glm/vec4.hpp>
+
 #include <cassert>
 #include <cstddef>
-#include <glm/vec4.hpp>
+#include <span>
 #include <utility>
 #include <vector>
-
-#include "geom.hpp"
 
 /* TODO: Error handling */
 

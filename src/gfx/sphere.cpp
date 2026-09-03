@@ -1,11 +1,14 @@
 #include "geom.hpp"
 
-#include <cstddef>
+#include <GLES3/gl3.h>
 #include <glm/common.hpp>
 #include <glm/ext/scalar_constants.hpp>
+#include <glm/ext/vector_float3.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
+
+#include <cstddef>
 
 namespace gfx::geom {
 

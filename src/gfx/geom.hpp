@@ -1,11 +1,14 @@
 #pragma once
 
-#include <GLES3/gl3.h>
-#include <cstddef>
-#include <glm/vec3.hpp>
-#include <span>
+#include <gsb/config.h>
 
-#include "config.h"
+#include <GLES3/gl3.h>
+#include <glm/ext/vector_float3.hpp>
+#include <glm/vec3.hpp>
+
+#include <cstddef>
+#include <span>
+#include <vector>
 
 namespace gfx::geom {
 

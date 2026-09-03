@@ -86,14 +86,14 @@
 
             env = {
               EM_TOOLCHAIN = "${pkgs.emscripten}/share/emscripten/cmake/Modules/Platform/Emscripten.cmake";
-              SDL3_ROOT = "${sdl3}";
+              SDL3_WASM_ROOT = "${sdl3}";
+              glm_ROOT = "${pkgs.glm}";
+              glm_SRC = "${pkgs.glm.src}";
             };
 
             configurePhase = ''
               runHook preConfigure
-              cmake --preset release \
-                -DCMAKE_CXX_SCAN_FOR_MODULES=OFF \
-                -DCMAKE_INSTALL_PREFIX=$out
+              cmake --preset release -DCMAKE_INSTALL_PREFIX=$out
               runHook postConfigure
             '';
 
@@ -105,9 +105,7 @@
 
             installPhase = ''
               runHook preInstall
-              mkdir -p $out/share/${finalAttrs.pname}
-              cp build/release/*.html build/release/*.js build/release/*.wasm \
-                $out/share/${finalAttrs.pname}/
+              cmake --install build/release
               runHook postInstall
             '';
 
@@ -137,6 +135,12 @@
                 exec ${pkgs.emscripten.llvmEnv}/bin/clangd \
                   --query-driver='${pkgs.emscripten}/bin/em++' "$@"
               '')
+              (writeShellScriptBin "clang-format" ''
+                exec ${pkgs.emscripten.llvmEnv}/bin/clang-format "$@"
+              '')
+              (writeShellScriptBin "clang-include-cleaner" ''
+                exec ${pkgs.emscripten.llvmEnv}/bin/clang-include-cleaner "$@"
+              '')
               (writeShellScriptBin "cbr" ''
                 set -e
                 ${pkgs.emscripten}/bin/emcmake cmake \
@@ -145,9 +149,17 @@
                 ${pkgs.emscripten}/bin/emcmake cmake \
                   --build --preset "''${1:-debug}" -j$(nproc)
                 ${pkgs.emscripten}/bin/emrun \
-                  --verbose build/''${1:-debug}/*.html
+                  --verbose build/''${1:-debug}/bin/*.html
               '')
             ];
+            env = {
+              EM_TOOLCHAIN = "${pkgs.emscripten}/share/emscripten/cmake/Modules/Platform/Emscripten.cmake";
+              SDL3_WASM_ROOT = "${sdl3}";
+              SDL3_NATIVE_ROOT = "${pkgs.sdl3.dev}";
+              OpenGL_ROOT = "${pkgs.libglvnd}:${pkgs.libglvnd.dev}";
+              glm_ROOT = "${pkgs.glm}";
+              glm_SRC = "${pkgs.glm.src}";
+            };
           };
         }
       );

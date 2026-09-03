@@ -4,9 +4,6 @@ set(_EMBED_SHADERS_SCRIPT
 function(embed_shaders LINK_TARGET)
   cmake_parse_arguments(ARG "" "" "SOURCES" ${ARGN})
 
-  set(_tgt "${LINK_TARGET}_embed_shaders")
-  string(MAKE_C_IDENTIFIER "${_tgt}" _tgt)
-
   if(NOT EXISTS "${_EMBED_SHADERS_SCRIPT}")
     message(FATAL_ERROR "[embed_shaders] Script not found: ${_EMBED_SHADERS_SCRIPT}")
   endif()
@@ -22,7 +19,7 @@ function(embed_shaders LINK_TARGET)
 
     get_filename_component(_name "${_src}" NAME)
     string(MAKE_C_IDENTIFIER "${_name}" _sym)
-    set(_hdr "${CMAKE_CURRENT_BINARY_DIR}/generated/shaders/${_name}.hpp")
+    set(_hdr "${CMAKE_CURRENT_BINARY_DIR}/generated/gsb/shaders/${_name}.hpp")
 
     add_custom_command(
       OUTPUT "${_hdr}"
@@ -38,7 +35,6 @@ function(embed_shaders LINK_TARGET)
     list(APPEND _hdrs "${_hdr}")
   endforeach()
 
-  add_custom_target(${_tgt} DEPENDS ${_hdrs})
   target_sources(${LINK_TARGET} PRIVATE ${_hdrs})
   target_include_directories(${LINK_TARGET} PRIVATE
     "${CMAKE_CURRENT_BINARY_DIR}/generated")

@@ -1,10 +1,17 @@
 #define SDL_MAIN_USE_CALLBACKS 1
+
+#include <gsb/app.hpp>
+#include <gsb/config.h>
+
+#include <SDL3/SDL_events.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_keycode.h>
 #include <SDL3/SDL_main.h>
 
+#include <cstdio>
+#include <memory>
 #include <print>
-
-#include "app.hpp"
-#include "config.h"
+#include <utility>
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
   (void)argc;

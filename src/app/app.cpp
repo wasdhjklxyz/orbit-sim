@@ -1,22 +1,22 @@
-#include "app.hpp"
-
-#ifndef __EMSCRIPTEN__
-#error "Building with emscripten is required (FIXME)"
-#endif
+#include <gsb/app.hpp>
+#include <gsb/config.h>
+#include <gsb/gfx.hpp>
+#include <gsb/sim.hpp>
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_error.h>
+#include <SDL3/SDL_init.h>
+#include <SDL3/SDL_timer.h>
 #include <SDL3/SDL_video.h>
-#include <ctime>
-#include <emscripten.h>
-#include <expected>
-#include <format>
 #include <glm/exponential.hpp>
 #include <glm/ext/vector_double3.hpp>
 
-#include "config.h"
-#include "gfx.hpp"
-#include "sim.hpp"
+#include <ctime>
+#include <expected>
+#include <format>
+#include <memory>
+#include <string>
+#include <utility>
 
 namespace {
 

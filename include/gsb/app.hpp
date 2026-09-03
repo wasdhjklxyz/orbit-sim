@@ -1,5 +1,8 @@
 #pragma once
 
+#include "gfx.hpp"
+#include "sim.hpp"
+
 // FIXME: Not a fan of SDL being available if someone includes us
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_error.h>
@@ -9,9 +12,8 @@
 #include <concepts>
 #include <expected>
 #include <memory>
-
-#include "gfx.hpp"
-#include "sim.hpp"
+#include <string>
+#include <utility>
 
 class App {
 public:

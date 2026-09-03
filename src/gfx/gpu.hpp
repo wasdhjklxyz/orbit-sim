@@ -1,13 +1,15 @@
 #pragma once
 
+#include "geom.hpp"
+
 #include <GLES3/gl3.h>
-#include <cstddef>
+#include <glm/ext/vector_float4.hpp>
 #include <glm/vec4.hpp>
+
+#include <cstddef>
 #include <ranges>
 #include <type_traits>
 #include <vector>
-
-#include "geom.hpp"
 
 namespace gfx::gpu {
 

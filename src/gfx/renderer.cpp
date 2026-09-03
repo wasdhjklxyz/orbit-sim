@@ -1,28 +1,33 @@
-#include "gfx.hpp"
+#include "geom.hpp"
 #include "gfx_internal.hpp"
+#include "gpu.hpp"
+
+#include <gsb/config.h>
+#include <gsb/gfx.hpp>
 
 #include <GLES3/gl3.h>
-#include <cassert>
-#include <expected>
-#include <format>
 #include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
+#include <glm/ext/vector_float4.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
-#include <memory>
-#include <utility>
 
-#include "config.h"
-#include "geom.hpp"
-#include "gpu.hpp"
+#include <cassert>
+#include <cstddef>
+#include <expected>
+#include <format>
+#include <memory>
+#include <string>
+#include <utility>
 
 namespace gfx {
 
-#include "shaders/frag.glsl.hpp"
-#include "shaders/vert.glsl.hpp"
+#include <gsb/shaders/frag.glsl.hpp>
+#include <gsb/shaders/vert.glsl.hpp>
 
 struct Renderer::Impl {
   gpu::Mesh mesh;

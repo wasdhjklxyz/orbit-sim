@@ -1,11 +1,15 @@
-#include "sim.hpp"
-
 #define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/norm.hpp>
 
-#include <ctime>
+#include <gsb/config.h>
+#include <gsb/sim.hpp>
+
 #include <glm/exponential.hpp>
 #include <glm/ext/vector_double3.hpp>
+#include <glm/geometric.hpp>
+#include <glm/gtx/norm.hpp>
+
+#include <cstddef>
+#include <span>
 
 void Sim::add(Entity e) { entities.push_back(e); }
 

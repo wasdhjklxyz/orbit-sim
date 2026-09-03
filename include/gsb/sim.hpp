@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/ext/vector_double3.hpp>
+
 #include <span>
 #include <vector>
 
