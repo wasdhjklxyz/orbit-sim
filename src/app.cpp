@@ -99,7 +99,8 @@ std::expected<void, std::string> App::iterate(const bool *kb_state) {
   float dx = 0.f, dy = 0.f;
   renderer->move_camera(kb_state[SDL_SCANCODE_W], kb_state[SDL_SCANCODE_S],
                         kb_state[SDL_SCANCODE_D], kb_state[SDL_SCANCODE_A],
-                        kb_state[SDL_SCANCODE_K], kb_state[SDL_SCANCODE_J], dx,
+                        kb_state[SDL_SCANCODE_K], kb_state[SDL_SCANCODE_J],
+                        kb_state[SDL_SCANCODE_H], kb_state[SDL_SCANCODE_L], dx,
                         dy, dt);
 
   renderer->clear();

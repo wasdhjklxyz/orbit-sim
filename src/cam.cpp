@@ -1,6 +1,6 @@
 #include "gfx_internal.hpp"
 
-#include "config.h"
+// #include "config.h"
 
 namespace gfx {
 
@@ -31,10 +31,24 @@ glm::mat4 Camera::view() const noexcept {
   return glm::lookAt(pos, pos + dir, up);
 }
 
+// void Camera::look(float dyaw_deg, float dpitch_deg) noexcept {
+//   yaw_deg += dyaw_deg * MOUSE_SENS;
+//   pitch_deg = glm::clamp(pitch_deg - dpitch_deg * MOUSE_SENS,
+//   -PITCH_CLAMP_DEG,
+//                          PITCH_CLAMP_DEG);
+//   dir = dir_euler_angles(glm::radians(yaw_deg), glm::radians(pitch_deg));
+//   right_ = glm::normalize(glm::cross(dir, WORLD_UP));
+//   up = glm::cross(right_, dir);
+// }
+
 void Camera::look(float dyaw_deg, float dpitch_deg) noexcept {
-  yaw_deg += dyaw_deg * MOUSE_SENS;
-  pitch_deg = glm::clamp(pitch_deg - dpitch_deg * MOUSE_SENS, -PITCH_CLAMP_DEG,
-                         PITCH_CLAMP_DEG);
+  // NOTE: This is just temporary to see rotation before working on mouse
+  // TODO: Should use the transformation matricies for all this shit tbh
+  // WARN: Note that in this shitty temp thing no dt used see
+  //       Renderer::move_camera()
+  yaw_deg += dyaw_deg;
+  pitch_deg =
+      glm::clamp(pitch_deg - dpitch_deg, -PITCH_CLAMP_DEG, PITCH_CLAMP_DEG);
   dir = dir_euler_angles(glm::radians(yaw_deg), glm::radians(pitch_deg));
   right_ = glm::normalize(glm::cross(dir, WORLD_UP));
   up = glm::cross(right_, dir);

@@ -76,12 +76,24 @@ void Renderer::draw_sphere(const glm::vec4 &xyzr) noexcept {
 }
 
 void Renderer::move_camera(bool forward, bool backward, bool right, bool left,
-                           bool up, bool down, float mouse_dx, float mouse_dy,
-                           double delta_time) noexcept { /* FIXME LOL */
-  (void)mouse_dx;
-  (void)mouse_dy;
+                           bool up, bool down, bool look_up, float look_down,
+                           float look_left, float look_right,
+                           double delta_time) noexcept {
+  // FIXME: Do i eve need to write why LOL
   // ERROR: Mouse stuttor and is fucking shit
   // impl->cam.look(mouse_dx, mouse_dy);
+  constexpr float ANG_ACC_DEG = 5.0f;
+  float dyaw_deg = 0.f, dpitch_deg = 0.f;
+  if (look_up)
+    dpitch_deg += ANG_ACC_DEG;
+  if (look_down)
+    dpitch_deg -= ANG_ACC_DEG;
+  if (look_right)
+    dyaw_deg -= ANG_ACC_DEG;
+  if (look_left)
+    dyaw_deg += ANG_ACC_DEG;
+  impl->cam.look(dyaw_deg * delta_time, dpitch_deg * delta_time);
+
   glm::vec3 dir{0.f};
   if (forward)
     dir += impl->cam.forward();
