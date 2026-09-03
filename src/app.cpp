@@ -62,9 +62,9 @@ std::expected<App, std::string> App::create(const char *title) {
   if (!window_raw)
     return std::unexpected{std::format("SDL_CreateWindow: {}", SDL_GetError())};
 
-  if (!SDL_SetWindowRelativeMouseMode(window_raw, true))
-    return std::unexpected{
-        std::format("SDL_SetWindowRelativeMouseMode: {}", SDL_GetError())};
+  // if (!SDL_SetWindowRelativeMouseMode(window_raw, true))
+  //   return std::unexpected{
+  //       std::format("SDL_SetWindowRelativeMouseMode: {}", SDL_GetError())};
 
   auto glctx_raw = SDL_GL_CreateContext(window_raw);
   if (!glctx_raw)
