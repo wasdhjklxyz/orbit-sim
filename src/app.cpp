@@ -82,11 +82,14 @@ std::expected<App, std::string> App::create(const char *title) {
              std::make_unique<gfx::Renderer>(std::move(*r))};
 }
 
-std::expected<void, std::string> App::iterate() {
+std::expected<void, std::string> App::iterate(const bool *kb_state) {
   const auto dt = delta_time();
   sim.tick(dt);
-
   renderer->clear();
+  renderer->move_camera(kb_state[SDL_SCANCODE_W], kb_state[SDL_SCANCODE_S],
+                        kb_state[SDL_SCANCODE_D], kb_state[SDL_SCANCODE_A],
+                        kb_state[SDL_SCANCODE_SPACE],
+                        kb_state[SDL_SCANCODE_LCTRL]);
   for (const auto &e : sim.get())
     renderer->draw_sphere({e.pos.x, e.pos.y, e.pos.z, e.radius});
   renderer->present(dt);
@@ -96,8 +99,6 @@ std::expected<void, std::string> App::iterate() {
         std::format("SDL_GL_SwapWindow: {}", SDL_GetError())};
   return {};
 }
-
-void App::key_event(KeyEvent kev) { renderer->move_camera(kev); }
 
 double App::delta_time() noexcept {
   const auto ct = SDL_GetTicks();

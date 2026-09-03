@@ -77,27 +77,28 @@ void Renderer::draw_sphere(const glm::vec4 &xyzr) noexcept {
   impl->batch.push(xyzr);
 }
 
-void Renderer::move_camera(KeyEvent kev) noexcept {
+void Renderer::move_camera(double delta_time, bool forward, bool backward,
+                           bool right, bool left, bool up, bool down) noexcept {
+  /* FIXME */
   glm::vec3 dir{0.f};
-  switch (kev) {
-  case FORWARD_DOWN:
-    dir.z -= 1;
-  case BACKWARD_UP:
-  case LEFT_UP:
-  case RIGHT_UP:
-  case FORWARD_DOWN:
-  case BACKWARD_DOWN:
-  case LEFT_DOWN:
-  case RIGHT_DOWN:
-  }
-
-  // impl->cam.accelerate({});
+  if (forward)
+    dir += impl->cam.forward();
+  if (backward)
+    dir -= impl->cam.forward();
+  if (right)
+    dir += impl->cam.right();
+  if (left)
+    dir -= impl->cam.right();
+  if (up)
+    dir += WORLD_UP;
+  if (down)
+    dir -= WORLD_UP;
+  impl->cam.update(dir, delta_time);
 }
 
 void Renderer::present(double delta_time) noexcept {
   impl->shp.use();
   impl->shp.update(delta_time);
-  impl->cam.update(delta_time);
   impl->shp.view(impl->cam.view());
   impl->shp.proj(impl->proj);
   impl->batch.flush();

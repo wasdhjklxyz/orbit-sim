@@ -1,11 +1,10 @@
 #pragma once
 
 #include <expected>
+#include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <memory>
 #include <string>
-
-#include "kev.hpp"
 
 namespace gfx {
 
@@ -19,7 +18,8 @@ public:
   void clear() noexcept;
   void draw_sphere(const glm::vec4 &) noexcept;
   void present(double delta_time) noexcept;
-  void move_camera(KeyEvent kev) noexcept;
+  void move_camera(double delta_time, bool forward, bool backward, bool right,
+                   bool left, bool up, bool down) noexcept; // FIXME
 
 private:
   struct Impl;
