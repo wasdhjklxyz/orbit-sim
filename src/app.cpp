@@ -97,6 +97,8 @@ std::expected<void, std::string> App::iterate() {
   return {};
 }
 
+void App::event(Event ev) { (void)ev; }
+
 double App::delta_time() noexcept {
   const auto ct = SDL_GetTicks();
   const double dt = static_cast<double>(ct - last_time) / 1000;

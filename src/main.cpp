@@ -1,3 +1,5 @@
+#include <SDL3/SDL_events.h>
+#include <SDL3/SDL_init.h>
 #define SDL_MAIN_USE_CALLBACKS 1
 #include <SDL3/SDL_main.h>
 
@@ -19,11 +21,37 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
 }
 
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
-  (void)appstate;
   if (event->type == SDL_EVENT_QUIT ||
       (event->type == SDL_EVENT_KEY_DOWN && event->key.key == SDLK_Q)) {
     return SDL_APP_SUCCESS;
   }
+
+  auto ae = App::Event::NONE;
+  if (event->type == SDL_EVENT_KEY_DOWN) {
+    switch (event->key.key) {
+    case SDLK_W:
+      ae = App::Event::FORWARD_DOWN;
+    case SDLK_A:
+      ae = App::Event::LEFT_DOWN;
+    case SDLK_S:
+      ae = App::Event::RIGHT_DOWN;
+    case SDLK_D:
+      ae = App::Event::BACKWARD_DOWN;
+    }
+  } else if (event->type == SDL_EVENT_KEY_UP) {
+    switch (event->key.key) {
+    case SDLK_W:
+      ae = App::Event::FORWARD_UP;
+    case SDLK_A:
+      ae = App::Event::LEFT_UP;
+    case SDLK_S:
+      ae = App::Event::RIGHT_UP;
+    case SDLK_D:
+      ae = App::Event::BACKWARD_UP;
+    }
+  }
+  (*static_cast<App *>(appstate)).event(ae);
+
   return SDL_APP_CONTINUE;
 }
 

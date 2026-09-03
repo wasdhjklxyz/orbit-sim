@@ -66,9 +66,7 @@ public:
         right{glm::normalize(glm::cross({0.f, 1.f, 0.f}, dir))},
         up{glm::cross(dir, right)} {}
   glm::mat4 view() const noexcept { return glm::lookAt(pos, tgt, up); }
-  void update(double delta_time) noexcept {
-    pos += glm::vec3(5.f, 0, 0) * (float)delta_time;
-  }
+  void update(double delta_time) noexcept { (void)delta_time; }
 
 private:
   glm::vec3 pos, tgt;
