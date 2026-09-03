@@ -5,6 +5,7 @@
 #include <cassert>
 #include <expected>
 #include <format>
+#include <glm/common.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
@@ -13,11 +14,13 @@
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
 #include <memory>
+#include <unordered_map>
 #include <utility>
 
 #include "config.h"
 #include "geom.hpp"
 #include "gpu.hpp"
+#include "kev.hpp"
 
 namespace gfx {
 
@@ -72,6 +75,23 @@ void Renderer::clear() noexcept {
 
 void Renderer::draw_sphere(const glm::vec4 &xyzr) noexcept {
   impl->batch.push(xyzr);
+}
+
+void Renderer::move_camera(KeyEvent kev) noexcept {
+  glm::vec3 dir{0.f};
+  switch (kev) {
+  case FORWARD_DOWN:
+    dir.z -= 1;
+  case BACKWARD_UP:
+  case LEFT_UP:
+  case RIGHT_UP:
+  case FORWARD_DOWN:
+  case BACKWARD_DOWN:
+  case LEFT_DOWN:
+  case RIGHT_DOWN:
+  }
+
+  // impl->cam.accelerate({});
 }
 
 void Renderer::present(double delta_time) noexcept {

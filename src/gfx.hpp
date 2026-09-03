@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include "kev.hpp"
+
 namespace gfx {
 
 class Renderer {
@@ -17,6 +19,7 @@ public:
   void clear() noexcept;
   void draw_sphere(const glm::vec4 &) noexcept;
   void present(double delta_time) noexcept;
+  void move_camera(KeyEvent kev) noexcept;
 
 private:
   struct Impl;

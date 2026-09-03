@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "gfx.hpp"
+#include "kev.hpp"
 #include "sim.hpp"
 
 class App {
@@ -21,22 +22,9 @@ public:
   App(App &&) = default;
   App &operator=(App &&) = default;
 
-  /* NOTE: DOWN/UP refers to whether the key is pressed down or released */
-  enum Event {
-    NONE = 0,
-    FORWARD_DOWN,
-    FORWARD_UP,
-    BACKWARD_DOWN,
-    BACKWARD_UP,
-    LEFT_DOWN,
-    LEFT_UP,
-    RIGHT_DOWN,
-    RIGHT_UP,
-  };
-
   static std::expected<App, std::string> create(const char *title);
   std::expected<void, std::string> iterate();
-  void event(Event ev);
+  void key_event(KeyEvent ev);
 
 private:
   template <auto Fn> struct FnDeleter {

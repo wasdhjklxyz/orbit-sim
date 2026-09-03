@@ -66,12 +66,21 @@ public:
         right{glm::normalize(glm::cross({0.f, 1.f, 0.f}, dir))},
         up{glm::cross(dir, right)} {}
   glm::mat4 view() const noexcept { return glm::lookAt(pos, tgt, up); }
-  void update(double delta_time) noexcept { (void)delta_time; }
+  void update(double delta_time) noexcept { pos += vel * (float)delta_time; }
+  void move(const glm::vec3 &dir) noexcept {}
+  // vel = glm::clamp(glm::fma(glm::normalize(dir), VEL_STEP, acc), VEL_MIN,
+  //                  VEL_MAX);
+}
 
-private:
-  glm::vec3 pos, tgt;
-  glm::vec3 dir;
-  glm::vec3 right, up;
+private : glm::vec3 pos,
+          tgt;
+glm::vec3 dir;
+glm::vec3 right, up;
+
+static constexpr float ACCELERATION = 4.f;
+static constexpr float MAX_VELOCITY = 16.f;
+static constexpr float DRAG = 2.f;
+glm::vec3 vel, acc;
 };
 
 } // namespace gfx

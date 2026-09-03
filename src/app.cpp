@@ -97,7 +97,7 @@ std::expected<void, std::string> App::iterate() {
   return {};
 }
 
-void App::event(Event ev) { (void)ev; }
+void App::key_event(KeyEvent kev) { renderer->move_camera(kev); }
 
 double App::delta_time() noexcept {
   const auto ct = SDL_GetTicks();

@@ -1,0 +1,13 @@
+#pragma once
+
+enum KeyEvent {
+  NONE = 0,
+  FORWARD_DOWN,
+  FORWARD_UP,
+  BACKWARD_DOWN,
+  BACKWARD_UP,
+  LEFT_DOWN,
+  LEFT_UP,
+  RIGHT_DOWN,
+  RIGHT_UP,
+};
