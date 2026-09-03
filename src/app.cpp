@@ -22,11 +22,11 @@ namespace {
 
 std::expected<Sim, std::string> create_simulation() {
   Sim sim{};
-  sim.add(Entity{{-120, 0, 0}, {0, -10, 0}, 30.0, 30.0});
-  sim.add(Entity{{120, 0, 0}, {0, 10, 0}, 30.0, 30.0});
-  sim.add(Entity{{0, 120, 0}, {-10, 0, 0}, 30.0, 30.0});
-  sim.add(Entity{{0, -120, 0}, {10, 0, 0}, 30.0, 30.0});
-  sim.add(Entity{{0, 0, 0}, {0, 0, 0}, 30.0, 30.0});
+  sim.add(Entity{{-60, 0, 0}, {0, -10, 0}, 30.0, 60.0});
+  sim.add(Entity{{120, 0, 60}, {0, 10, 0}, 20.0, 30.0});
+  sim.add(Entity{{0, 120, 0}, {-10, 0, 0}, 10.0, 10.0});
+  sim.add(Entity{{0, -60, 0}, {10, 0, 0}, 10.0, 10.0});
+  sim.add(Entity{{0, 0, -120}, {0, 0, 0}, 20.0, 30.0});
   return sim;
 }
 

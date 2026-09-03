@@ -12,7 +12,7 @@ void Sim::add(Entity e) { entities.push_back(e); }
 std::span<const Entity> Sim::get() const noexcept { return entities; }
 
 void Sim::apply_gravity(Entity &e1, Entity &e2) noexcept {
-  constexpr auto G = 100; // 6.6743e-11;
+  constexpr auto G = 200; // 6.6743e-11;
   const auto mu = G * e2.mass;
   const auto d = e1.pos - e2.pos;
   const auto r2 = glm::length2(d);

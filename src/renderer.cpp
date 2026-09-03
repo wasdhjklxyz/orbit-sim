@@ -77,6 +77,7 @@ void Renderer::draw_sphere(const glm::vec4 &xyzr) noexcept {
 void Renderer::present(double delta_time) noexcept {
   impl->shp.use();
   impl->shp.update(delta_time);
+  impl->cam.update(delta_time);
   impl->shp.view(impl->cam.view());
   impl->shp.proj(impl->proj);
   impl->batch.flush();

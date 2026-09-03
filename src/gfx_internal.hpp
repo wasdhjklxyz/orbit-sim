@@ -62,15 +62,18 @@ private:
 class Camera {
 public:
   explicit Camera(glm::vec3 pos, glm::vec3 tgt = {0, 0, 0}) noexcept
-      : dir{glm::normalize(pos - tgt)},
+      : pos{pos}, tgt{tgt}, dir{glm::normalize(pos - tgt)},
         right{glm::normalize(glm::cross({0.f, 1.f, 0.f}, dir))},
-        up{glm::cross(dir, right)}, view_{glm::lookAt(pos, tgt, up)} {}
-  glm::mat4 view() const noexcept { return view_; }
+        up{glm::cross(dir, right)} {}
+  glm::mat4 view() const noexcept { return glm::lookAt(pos, tgt, up); }
+  void update(double delta_time) noexcept {
+    pos += glm::vec3(5.f, 0, 0) * (float)delta_time;
+  }
 
 private:
+  glm::vec3 pos, tgt;
   glm::vec3 dir;
   glm::vec3 right, up;
-  glm::mat4 view_;
 };
 
 } // namespace gfx
