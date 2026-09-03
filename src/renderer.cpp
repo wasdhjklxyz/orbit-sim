@@ -6,6 +6,7 @@
 #include <expected>
 #include <format>
 #include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/mat4x4.hpp>
@@ -27,10 +28,11 @@ struct Renderer::Impl {
   gpu::Mesh mesh;
   gpu::Batch batch;
   ShaderProg shp;
+  Camera cam;
   glm::mat4 proj;
 
   Impl(const geom::Mesh &g, std::size_t max, ShaderProg &&s) noexcept
-      : mesh{g}, batch{mesh, max}, shp{std::move(s)},
+      : mesh{g}, batch{mesh, max}, shp{std::move(s)}, cam{{0, 0, 1.f}},
         proj{glm::ortho(-METERS_WIDTH / 2.f, METERS_WIDTH / 2.f,
                         -METERS_HEIGHT / 2.f, METERS_HEIGHT / 2.f, -1000.f,
                         1000.f)} {}
@@ -76,6 +78,7 @@ void Renderer::draw_sphere(const glm::vec4 &xyzr) noexcept {
 void Renderer::present(double delta_time) noexcept {
   impl->shp.use();
   impl->shp.update(delta_time);
+  impl->shp.view(impl->cam.view());
   impl->shp.proj(impl->proj);
   impl->batch.flush();
 }

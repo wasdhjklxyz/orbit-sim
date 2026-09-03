@@ -4,6 +4,7 @@
 
 #include <concepts>
 #include <expected>
+#include <glm/ext/matrix_transform.hpp>
 #include <glm/mat4x4.hpp>
 #include <span>
 #include <string>
@@ -46,6 +47,7 @@ public:
   void use() const noexcept;
   void update(double delta_time) noexcept;
   void proj(const glm::mat4 &m) const noexcept;
+  void view(const glm::mat4 &m) const noexcept;
 
 private:
   explicit ShaderProg(GLuint) noexcept;
@@ -55,6 +57,20 @@ private:
 
   GLuint spid{0};
   float elapsed{0};
+};
+
+class Camera {
+public:
+  explicit Camera(glm::vec3 pos, glm::vec3 tgt = {0, 0, 0}) noexcept
+      : dir{glm::normalize(pos - tgt)},
+        right{glm::normalize(glm::cross({0.f, 1.f, 0.f}, dir))},
+        up{glm::cross(dir, right)}, view_{glm::lookAt(pos, tgt, up)} {}
+  glm::mat4 view() const noexcept { return view_; }
+
+private:
+  glm::vec3 dir;
+  glm::vec3 right, up;
+  glm::mat4 view_;
 };
 
 } // namespace gfx

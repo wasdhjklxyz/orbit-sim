@@ -7,6 +7,7 @@ out vec3 ourColor;
 out vec3 vNormal;
 
 uniform float uTime;
+uniform mat4 uView;
 uniform mat4 uProj;
 
 const float PERIOD = 20.0f;
@@ -18,7 +19,7 @@ vec3 hue2rgb(float hue) {
 }
 
 void main() {
-  gl_Position = uProj * vec4(aInst.xyz + aPos * aInst.w, 1.0);
+  gl_Position = uProj * uView * vec4(aInst.xyz + aPos * aInst.w, 1.0);
   ourColor = hue2rgb(fract(1.0 - uTime / PERIOD));
   vNormal = aPos;
 }

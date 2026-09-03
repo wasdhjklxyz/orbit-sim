@@ -129,4 +129,9 @@ void ShaderProg::proj(const glm::mat4 &m) const noexcept {
   glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
+void ShaderProg::view(const glm::mat4 &m) const noexcept {
+  GLint loc = glGetUniformLocation(spid, "uView");
+  glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
+}
+
 } // namespace gfx
