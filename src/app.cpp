@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include <SDL3/SDL_scancode.h>
 
 #ifndef __EMSCRIPTEN__
 #error "Building with emscripten is required (FIXME)"
@@ -98,8 +99,8 @@ std::expected<void, std::string> App::iterate(const bool *kb_state) {
   float dx = 0.f, dy = 0.f;
   renderer->move_camera(kb_state[SDL_SCANCODE_W], kb_state[SDL_SCANCODE_S],
                         kb_state[SDL_SCANCODE_D], kb_state[SDL_SCANCODE_A],
-                        kb_state[SDL_SCANCODE_SPACE],
-                        kb_state[SDL_SCANCODE_LCTRL], dx, dy, dt);
+                        kb_state[SDL_SCANCODE_K], kb_state[SDL_SCANCODE_J], dx,
+                        dy, dt);
 
   renderer->clear();
   for (const auto &e : sim.get())
