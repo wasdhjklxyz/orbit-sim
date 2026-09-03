@@ -1,24 +1,23 @@
 #pragma once
 
-#include "glm/ext/scalar_constants.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/norm.hpp>
 
 #include <GLES3/gl3.h>
 #include <concepts>
 #include <expected>
+#include <glm/common.hpp>
 #include <glm/exponential.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/vector_double3.hpp>
 #include <glm/mat4x4.hpp>
-#include <print>
 #include <span>
 #include <string>
 #include <string_view>
 
 namespace gfx {
 
-inline constexpr glm::vec3 WORLD_UP{0.f, 1.f, 0.f};
+inline constexpr glm::vec3 WORLD_UP = {0.f, 1.f, 0.f};
 
 class Shader {
 public:
@@ -69,41 +68,20 @@ private:
 
 class Camera {
 public:
-  explicit Camera(glm::vec3 pos, glm::vec3 tgt = {0, 0, 0}) noexcept
-      : pos{pos}, tgt{tgt}, dir{glm::normalize(pos - tgt)},
-        right_{glm::normalize(glm::cross(WORLD_UP, dir))},
-        up{glm::cross(dir, right_)} {}
+  explicit Camera(glm::vec3 pos, float pitch = 0.f, float yaw = 180.f) noexcept;
 
-  glm::mat4 view() const noexcept { return glm::lookAt(pos, tgt, up); }
+  void move(const glm::vec3 &dir, float pitch, float yaw) noexcept;
+  void update(double delta_time) noexcept;
 
-  void update(const glm::vec3 &dir, double delta_time) noexcept {
-    constexpr auto EPS = glm::epsilon<float>();
-    constexpr auto EPS2 = EPS * EPS;
-    if (glm::length2(dir) > 0.f) {
-      vel += glm::normalize(dir) * ACCELERATION * (float)delta_time;
-      const float speed = glm::length(vel);
-      if (speed > MAX_VELOCITY)
-        vel *= MAX_VELOCITY / speed;
-    } else {
-      vel *= glm::exp(-DRAG * delta_time);
-      if (glm::length2(vel) < EPS2)
-        vel = glm::vec3{0.f};
-    }
-    // pos += vel * (float)delta_time;
+  inline constexpr glm::vec3 forward() const noexcept { return dir; }
+  inline constexpr glm::vec3 right() const noexcept { return right_; }
+  inline constexpr glm::mat4 view() const noexcept {
+    return glm::lookAt(pos, pos + dir, up);
   }
 
-  inline constexpr glm::vec3 forward() const noexcept { return tgt; }
-  inline constexpr glm::vec3 right() const noexcept { return right_; }
-
 private:
-  glm::vec3 pos, tgt;
-  glm::vec3 dir;
-  glm::vec3 right_, up;
-
-  static constexpr float ACCELERATION = 60.f;
-  static constexpr float MAX_VELOCITY = 20.f;
-  static constexpr auto DRAG = 8.f;
-  glm::vec3 vel;
+  glm::vec3 pos, vel;
+  glm::vec3 dir, right_, up;
 };
 
 } // namespace gfx

@@ -18,8 +18,8 @@ public:
   void clear() noexcept;
   void draw_sphere(const glm::vec4 &) noexcept;
   void present(double delta_time) noexcept;
-  void move_camera(double delta_time, bool forward, bool backward, bool right,
-                   bool left, bool up, bool down) noexcept; // FIXME
+  void move_camera(bool forward, bool backward, bool right, bool left, bool up,
+                   bool down) noexcept; // FIXME
 
 private:
   struct Impl;
