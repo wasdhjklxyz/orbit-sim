@@ -32,10 +32,9 @@ struct Renderer::Impl {
   glm::mat4 proj;
 
   Impl(const geom::Mesh &g, std::size_t max, ShaderProg &&s) noexcept
-      : mesh{g}, batch{mesh, max}, shp{std::move(s)}, cam{{0, 0, 1.f}},
-        proj{glm::ortho(-METERS_WIDTH / 2.f, METERS_WIDTH / 2.f,
-                        -METERS_HEIGHT / 2.f, METERS_HEIGHT / 2.f, -1000.f,
-                        1000.f)} {}
+      : mesh{g}, batch{mesh, max}, shp{std::move(s)}, cam{{0, 0, 300.f}},
+        proj{glm::perspective(glm::radians(PERSPECTIVE_FOV), ASPECT_RATIO,
+                              PERSPECTIVE_NEAR, PERSPECTIVE_FAR)} {}
 };
 
 Renderer::Renderer(std::unique_ptr<Impl> p) noexcept : impl{std::move(p)} {}

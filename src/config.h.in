@@ -5,11 +5,11 @@
 inline constexpr const char* PROJECT = "@PROJECT@";
 inline constexpr int WIDTH = @WIDTH@;
 inline constexpr int HEIGHT = @HEIGHT@;
-inline constexpr float METERS_PER_NDC = @METERS_PER_NDC@f;
+inline constexpr float ASPECT_RATIO = float(WIDTH) / float(HEIGHT);
 
-inline constexpr float ASPECT_RATIO = float(HEIGHT) / float(WIDTH);
-inline constexpr float METERS_HEIGHT = 2.0f * METERS_PER_NDC;
-inline constexpr float METERS_WIDTH = METERS_HEIGHT / ASPECT_RATIO;
+inline constexpr float PERSPECTIVE_FOV = @PERSPECTIVE_FOV@;
+inline constexpr float PERSPECTIVE_NEAR = @PERSPECTIVE_NEAR@;
+inline constexpr float PERSPECTIVE_FAR = @PERSPECTIVE_FAR@;
 
 inline constexpr int NUM_SECTORS_CIRCLE = @NUM_SECTORS_CIRCLE@;
 inline constexpr int NUM_SECTORS_SPHERE = @NUM_SECTORS_SPHERE@;
