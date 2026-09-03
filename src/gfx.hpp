@@ -19,7 +19,7 @@ public:
   void draw_sphere(const glm::vec4 &) noexcept;
   void present(double delta_time) noexcept;
   void move_camera(bool forward, bool backward, bool right, bool left, bool up,
-                   bool down, float pitch, float yaw,
+                   bool down, float mouse_dx, float mouse_dy,
                    double delta_time) noexcept; /* FIXME LOL */
 
 private:

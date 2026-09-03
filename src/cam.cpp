@@ -13,7 +13,7 @@ inline constexpr float EPS = 1e-4f; // NOTE: Threshold for drag. World units/s
 inline constexpr float EPS2 = EPS * EPS;
 inline constexpr float PITCH_CLAMP_DEG = 89.f;
 
-glm::vec3 dir_euler_angles(float pitch_rad, float yaw_rad) noexcept {
+glm::vec3 dir_euler_angles(float yaw_rad, float pitch_rad) noexcept {
   return glm::normalize(glm::vec3{glm::cos(yaw_rad) * glm::cos(pitch_rad),
                                   glm::sin(pitch_rad),
                                   glm::sin(yaw_rad) * glm::cos(pitch_rad)});
@@ -21,27 +21,21 @@ glm::vec3 dir_euler_angles(float pitch_rad, float yaw_rad) noexcept {
 
 } // namespace
 
-Camera::Camera(glm::vec3 pos, float pitch_deg, float yaw_deg) noexcept
+Camera::Camera(glm::vec3 pos, float yaw_deg, float pitch_deg) noexcept
     : pos{pos}, vel{0.f},
       dir{dir_euler_angles(glm::radians(pitch_deg), glm::radians(yaw_deg))},
       right_{glm::normalize(glm::cross(dir, WORLD_UP))},
-      up{glm::cross(right_, dir)}, pitch_deg{pitch_deg}, yaw_deg{yaw_deg} {}
+      up{glm::cross(right_, dir)}, yaw_deg{yaw_deg}, pitch_deg{pitch_deg} {}
 
 glm::mat4 Camera::view() const noexcept {
   return glm::lookAt(pos, pos + dir, up);
 }
 
-void Camera::update(const glm::vec3 &acc_dir, float dpitch_deg, float dyaw_deg,
-                    double delta_time) noexcept {
-  look(dpitch_deg, dyaw_deg);
-  move(acc_dir, delta_time);
-};
-
-void Camera::look(float dpitch_deg, float dyaw_deg) noexcept {
+void Camera::look(float dyaw_deg, float dpitch_deg) noexcept {
   yaw_deg += dyaw_deg * MOUSE_SENS;
   pitch_deg = glm::clamp(pitch_deg - dpitch_deg * MOUSE_SENS, -PITCH_CLAMP_DEG,
                          PITCH_CLAMP_DEG);
-  dir = dir_euler_angles(glm::radians(pitch_deg), glm::radians(yaw_deg));
+  dir = dir_euler_angles(glm::radians(yaw_deg), glm::radians(pitch_deg));
   right_ = glm::normalize(glm::cross(dir, WORLD_UP));
   up = glm::cross(right_, dir);
 }

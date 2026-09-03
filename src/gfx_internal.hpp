@@ -68,23 +68,20 @@ private:
 
 class Camera {
 public:
-  explicit Camera(glm::vec3 pos, float pitch_deg = 0.f,
-                  float yaw_deg = 180.f) noexcept;
+  explicit Camera(glm::vec3 pos, float yaw_deg = -90.f,
+                  float pitch_deg = 0.f) noexcept;
 
   glm::mat4 view() const noexcept;
-  void update(const glm::vec3 &acc_dir, float dpitch_deg, float dyaw_deg,
-              double delta_time) noexcept;
+  void look(float yaw_deg, float pitch_deg) noexcept;
+  void move(const glm::vec3 &acc_dir, double delta_time) noexcept;
 
   inline constexpr glm::vec3 forward() const noexcept { return dir; }
   inline constexpr glm::vec3 right() const noexcept { return right_; }
 
 private:
-  void look(float pitch_deg, float yaw_deg) noexcept;
-  void move(const glm::vec3 &acc_dir, double delta_time) noexcept;
-
   glm::vec3 pos, vel;
   glm::vec3 dir, right_, up;
-  float pitch_deg, yaw_deg;
+  float yaw_deg, pitch_deg;
 };
 
 } // namespace gfx

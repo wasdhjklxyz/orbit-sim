@@ -78,6 +78,7 @@ void Renderer::draw_sphere(const glm::vec4 &xyzr) noexcept {
 void Renderer::move_camera(bool forward, bool backward, bool right, bool left,
                            bool up, bool down, float mouse_dx, float mouse_dy,
                            double delta_time) noexcept { /* FIXME LOL */
+  impl->cam.look(mouse_dx, mouse_dy);
   glm::vec3 dir{0.f};
   if (forward)
     dir += impl->cam.forward();
@@ -91,7 +92,7 @@ void Renderer::move_camera(bool forward, bool backward, bool right, bool left,
     dir += WORLD_UP;
   if (down)
     dir -= WORLD_UP;
-  impl->cam.update(dir, mouse_dx, mouse_dy, delta_time);
+  impl->cam.move(dir, delta_time);
 }
 
 void Renderer::present(double delta_time) noexcept {

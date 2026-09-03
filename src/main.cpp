@@ -32,7 +32,6 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 
 SDL_AppResult SDL_AppIterate(void *appstate) {
   auto *app = static_cast<App *>(appstate);
-  SDL_PumpEvents();
   const bool *kb = SDL_GetKeyboardState(nullptr);
   auto r = app->iterate(kb);
   if (!r) {
