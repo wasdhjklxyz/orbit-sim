@@ -23,7 +23,7 @@ glm::vec3 dir_euler_angles(float yaw_rad, float pitch_rad) noexcept {
 
 Camera::Camera(glm::vec3 pos, float yaw_deg, float pitch_deg) noexcept
     : pos{pos}, vel{0.f},
-      dir{dir_euler_angles(glm::radians(pitch_deg), glm::radians(yaw_deg))},
+      dir{dir_euler_angles(glm::radians(yaw_deg), glm::radians(pitch_deg))},
       right_{glm::normalize(glm::cross(dir, WORLD_UP))},
       up{glm::cross(right_, dir)}, yaw_deg{yaw_deg}, pitch_deg{pitch_deg} {}
 
