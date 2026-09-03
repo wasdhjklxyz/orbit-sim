@@ -11,6 +11,7 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/vector_double3.hpp>
 #include <glm/mat4x4.hpp>
+#include <print>
 #include <span>
 #include <string>
 #include <string_view>
@@ -88,7 +89,7 @@ public:
       if (glm::length2(vel) < EPS2)
         vel = glm::vec3{0.f};
     }
-    pos += vel * (float)delta_time;
+    // pos += vel * (float)delta_time;
   }
 
   inline constexpr glm::vec3 forward() const noexcept { return tgt; }

@@ -14,6 +14,7 @@
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
 #include <memory>
+#include <print>
 #include <utility>
 
 #include "config.h"
@@ -91,6 +92,7 @@ void Renderer::move_camera(double delta_time, bool forward, bool backward,
     dir += WORLD_UP;
   if (down)
     dir -= WORLD_UP;
+  std::print("Renderer::move_camera(): dir=<{},{},{}>\n", dir.x, dir.y, dir.z);
   impl->cam.update(dir, delta_time);
 }
 
