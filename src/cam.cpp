@@ -6,9 +6,9 @@ namespace gfx {
 
 namespace {
 
-inline constexpr float ACCELERATION = 60.f;
-inline constexpr float MAX_VELOCITY = 20.f;
-inline constexpr float DRAG = 8.f;
+inline constexpr float ACCELERATION = 400.f;
+inline constexpr float MAX_VELOCITY = 200.f;
+inline constexpr float DRAG = 50.f;
 inline constexpr float EPS = 1e-4f; // NOTE: Threshold for drag. World units/s
 inline constexpr float EPS2 = EPS * EPS;
 inline constexpr float PITCH_CLAMP_DEG = 89.f;

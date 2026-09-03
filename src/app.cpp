@@ -96,12 +96,13 @@ std::expected<void, std::string> App::iterate(const bool *kb_state) {
   /* TODO: FIXME: Refactor */
   /* ERROR: Mouse stuttor and is fucking shit*/
   // SDL_GetRelativeMouseState(&dx, &dy);
-  float dx = 0.f, dy = 0.f;
+  // float dx = 0.f, dy = 0.f;
   renderer->move_camera(kb_state[SDL_SCANCODE_W], kb_state[SDL_SCANCODE_S],
                         kb_state[SDL_SCANCODE_D], kb_state[SDL_SCANCODE_A],
-                        kb_state[SDL_SCANCODE_K], kb_state[SDL_SCANCODE_J],
-                        kb_state[SDL_SCANCODE_H], kb_state[SDL_SCANCODE_L], dx,
-                        dy, dt);
+                        kb_state[SDL_SCANCODE_SPACE],
+                        kb_state[SDL_SCANCODE_LSHIFT], kb_state[SDL_SCANCODE_K],
+                        kb_state[SDL_SCANCODE_J], kb_state[SDL_SCANCODE_H],
+                        kb_state[SDL_SCANCODE_L], dt);
 
   renderer->clear();
   for (const auto &e : sim.get())

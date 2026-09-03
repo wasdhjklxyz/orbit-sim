@@ -82,7 +82,7 @@ void Renderer::move_camera(bool forward, bool backward, bool right, bool left,
   // FIXME: Do i eve need to write why LOL
   // ERROR: Mouse stuttor and is fucking shit
   // impl->cam.look(mouse_dx, mouse_dy);
-  constexpr float ANG_ACC_DEG = 5.0f;
+  constexpr float ANG_ACC_DEG = 20.0f;
   float dyaw_deg = 0.f, dpitch_deg = 0.f;
   if (look_up)
     dpitch_deg += ANG_ACC_DEG;
