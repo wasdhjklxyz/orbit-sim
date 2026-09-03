@@ -86,7 +86,7 @@ std::expected<void, std::string> App::iterate(const bool *kb_state) {
   const auto dt = delta_time();
   sim.tick(dt);
   renderer->clear();
-  renderer->move_camera(kb_state[SDL_SCANCODE_W], kb_state[SDL_SCANCODE_S],
+  renderer->move_camera(dt, kb_state[SDL_SCANCODE_W], kb_state[SDL_SCANCODE_S],
                         kb_state[SDL_SCANCODE_D], kb_state[SDL_SCANCODE_A],
                         kb_state[SDL_SCANCODE_SPACE],
                         kb_state[SDL_SCANCODE_LCTRL]);

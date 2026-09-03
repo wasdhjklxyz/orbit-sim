@@ -14,13 +14,11 @@
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
 #include <memory>
-#include <unordered_map>
 #include <utility>
 
 #include "config.h"
 #include "geom.hpp"
 #include "gpu.hpp"
-#include "kev.hpp"
 
 namespace gfx {
 
