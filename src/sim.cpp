@@ -11,20 +11,23 @@ void Sim::add(Entity e) { entities.push_back(e); }
 
 std::span<const Entity> Sim::get() const noexcept { return entities; }
 
-void Sim::apply_gravity(Entity &e1, Entity &e2, double delta_time) noexcept {
+void Sim::apply_gravity(Entity &e1, Entity &e2) noexcept {
   constexpr auto G = 100; // 6.6743e-11;
   const auto mu = G * e2.mass;
   const auto d = e1.pos - e2.pos;
   const auto r2 = glm::length2(d);
-  e1.acc += (-mu / r2) * glm::normalize(d) * delta_time;
+  e1.acc += (-mu / r2) * glm::normalize(d);
 }
 
 void Sim::tick(double delta_time) noexcept {
+  for (auto &e : entities)
+    e.acc = {0, 0, 0};
+
   for (std::size_t i = 0; i < entities.size(); i++)
     for (std::size_t k = 0; k < entities.size(); k++) {
       if (k == i)
         continue;
-      apply_gravity(entities[i], entities[k], delta_time);
+      apply_gravity(entities[i], entities[k]);
     }
 
   for (auto &e : entities)

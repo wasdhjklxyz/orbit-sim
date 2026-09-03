@@ -24,6 +24,6 @@ public:
   void tick(double delta_time) noexcept;
 
 private:
-  void apply_gravity(Entity &e1, Entity &e2, double delta_time) noexcept;
+  void apply_gravity(Entity &e1, Entity &e2) noexcept;
   std::vector<Entity> entities;
 };
