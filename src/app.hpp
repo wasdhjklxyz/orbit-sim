@@ -22,8 +22,7 @@ public:
   App &operator=(App &&) = default;
 
   static std::expected<App, std::string> create(const char *title);
-  std::expected<void, std::string> iterate();
-  void handle_kb_state(const bool *kb_state) noexcept;
+  std::expected<void, std::string> iterate(const bool *kb_state);
 
 private:
   template <auto Fn> struct FnDeleter {
