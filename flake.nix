@@ -151,6 +151,11 @@
                 ${pkgs.emscripten}/bin/emrun \
                   --verbose build/''${1:-debug}/bin/*.html
               '')
+              (writeShellScriptBin "cbr-native" ''
+                cmake --preset native && \
+                cmake --build --preset native -j$(nproc) && \
+                ./build/native/bin/gsb
+              '')
             ];
             env = {
               EM_TOOLCHAIN = "${pkgs.emscripten}/share/emscripten/cmake/Modules/Platform/Emscripten.cmake";
