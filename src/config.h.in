@@ -19,4 +19,4 @@ inline constexpr std::size_t MAX_ENTITIES = @MAX_ENTITIES@;
 
 inline constexpr double G = @G@;
 
-inline constexpr std::size_t MOUSE_SENS = @MOUSE_SENS@;
+inline constexpr float MOUSE_SENS = @MOUSE_SENS@;
