@@ -14,8 +14,7 @@
       "toolchainFile": "$env{EM_TOOLCHAIN}",
       "cacheVariables": {
         "CMAKE_FIND_ROOT_PATH": "$env{SDL3_WASM_ROOT}",
-        "FETCHCONTENT_SOURCE_DIR_GLM": "$env{glm_SRC}",
-        "CMAKE_CXX_SCAN_FOR_MODULES": "OFF"
+        "FETCHCONTENT_SOURCE_DIR_GLM": "$env{glm_SRC}"
       }
     },
     {
