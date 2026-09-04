@@ -7,6 +7,9 @@ project(gsb
   HOMEPAGE_URL "https://github.com/wasdhjklxyz/gravity-sandbox"
   LANGUAGES CXX)
 
+option(GSB_BUILD_APP "Build the app" ${PROJECT_IS_TOP_LEVEL})
+option(GSB_ENABLE_TESTING "Enable testing" ${PROJECT_IS_TOP_LEVEL})
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 include(FetchContent)
@@ -34,4 +37,11 @@ FetchContent_Declare(glm
   FIND_PACKAGE_ARGS)
 FetchContent_MakeAvailable(glm)
 
-add_subdirectory(src)
+if(GSB_BUILD_APP)
+  add_subdirectory(src)
+endif()
+
+if(GSB_ENABLE_TESTING AND NOT EMSCRIPTEN)
+  enable_testing()
+  add_subdirectory(tests)
+endif()

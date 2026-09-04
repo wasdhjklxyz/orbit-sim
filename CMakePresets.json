@@ -5,7 +5,11 @@
       "name": "base",
       "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "build/${presetName}"
+      "binaryDir": "build/${presetName}",
+      "cacheVariables": {
+        "GSB_BUILD_APP": "ON",
+        "GSB_ENABLE_TESTING": "OFF"
+      }
     },
     {
       "name": "em",
@@ -34,11 +38,27 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "SDL3_ROOT": "$env{SDL3_NATIVE_ROOT}"
       }
+    },
+    {
+      "name": "native-test",
+      "inherits": "native",
+      "cacheVariables": {
+        "GSB_ENABLE_TESTING": "ON"
+      }
     }
   ],
   "buildPresets": [
     { "name": "debug", "configurePreset": "debug" },
     { "name": "release", "configurePreset": "release" },
-    { "name": "native", "configurePreset": "native" }
+    { "name": "native", "configurePreset": "native" },
+    { "name": "native-test", "configurePreset": "native-test" }
+  ],
+  "testPresets": [
+    {
+      "name": "native-test",
+      "configurePreset": "native-test",
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error" }
+    }
   ]
 }

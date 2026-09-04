@@ -14,6 +14,11 @@ pkgs.mkShell {
       cmake --build --preset native -j$(nproc) && \
       ./build/native/bin/gsb
     '')
+    (pkgs.writeShellScriptBin "cbt" ''
+      cmake --preset native-test && \
+      cmake --build --preset native-test -j$(nproc) && \
+      ctest --preset native-test
+    '')
   ];
 
   env = common.env // {
