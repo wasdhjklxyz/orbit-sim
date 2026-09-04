@@ -11,7 +11,6 @@
 #include <glm/exponential.hpp>
 #include <glm/ext/vector_double3.hpp>
 
-#include <ctime>
 #include <expected>
 #include <format>
 #include <memory>

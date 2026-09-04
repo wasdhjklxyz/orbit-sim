@@ -8,8 +8,6 @@
 #include <glm/trigonometric.hpp>
 #include <glm/vec3.hpp>
 
-#include <cstddef>
-
 namespace gfx::geom {
 
 /* NOTE: If sectors=2, stacks=2, it is a double sided square

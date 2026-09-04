@@ -8,7 +8,6 @@
 #include <SDL3/SDL_keycode.h>
 #include <SDL3/SDL_main.h>
 
-#include <cstdio>
 #include <memory>
 #include <print>
 #include <utility>
